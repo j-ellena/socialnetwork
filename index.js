@@ -1,8 +1,14 @@
-const express = require('express');
-const app = express();
-const compression = require('compression');
+const express = require('express')
+const app = express()
+const compression = require('compression')
+const bodyParser = require('body-parser')
 
-app.use(compression());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+app.use(express.static('public'))
+
+app.use(compression())
 
 if (process.env.NODE_ENV != 'production') {
     app.use(
@@ -10,15 +16,24 @@ if (process.env.NODE_ENV != 'production') {
         require('http-proxy-middleware')({
             target: 'http://localhost:8081/'
         })
-    );
+    )
 } else {
-    app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`));
+    app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`))
 }
 
+app.post('/registration', (req, res) => {
+    // do DB stuff
+
+    // if we had an error...
+    res.json({
+        error: 'duplicate email'
+    })
+})
+
 app.get('*', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
+    res.sendFile(__dirname + '/index.html')
+})
 
 app.listen(8080, function() {
-    console.log("I'm listening.");
-});
+    console.log("I'm listening.")
+})
