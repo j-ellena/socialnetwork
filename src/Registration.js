@@ -1,58 +1,78 @@
-import React, { Component } from 'react'
-import axios from 'axios'
+import React, { Component } from "react";
+import axios from "axios";
 
 class Registration extends Component {
     constructor() {
-        super()
+        super();
 
         this.state = {
             error: null
-        }
+        };
 
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e) {
         this.setState({
-            [ e.target.name ]: e.target.value
-        })
+            [e.target.name]: e.target.value
+        });
     }
 
     handleSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
 
-        axios.post('/registration', this.state)
-            .then(resp => {
-                if (resp.data.error) {
-                    this.setState({
-                        error: resp.data.error
-                    })
-                } else {
-                    location.replace('/')
-                }
-            })
+        axios.post("/registration", this.state).then(response => {
+            if (response.data.error) {
+                this.setState({
+                    error: response.data.error
+                });
+            } else {
+                location.replace("/");
+            }
+        });
     }
 
-    render() { 
+    render() {
         return (
-            <div className="registration">
-                <h1>Registration Yo!</h1>
+            <div className="registration-component">
+                {this.state.error ? <div>ERROR: {this.state.error}</div> : null}
 
-                {
-                    this.state.error
-                        ? <div>ERROR: { this.state.error }</div>
-                        : null
-                }
+                <h1>Please register:</h1>
 
-                <form onSubmit={ this.handleSubmit }>
-                    <input onChange={ this.handleChange } name="fullName" placeholder="name" type="text"/>
-                    <input onChange={ this.handleChange } name="dog" placeholder="dog" type="text"/>
+                <form
+                    onSubmit={this.handleSubmit}
+                    className="registration-form"
+                >
+                    <input
+                        onChange={this.handleChange}
+                        name="firstName"
+                        placeholder="First name"
+                        type="text"
+                    />
+                    <input
+                        onChange={this.handleChange}
+                        name="lastName"
+                        placeholder="Last name"
+                        type="text"
+                    />
+                    <input
+                        onChange={this.handleChange}
+                        name="email"
+                        placeholder="Email"
+                        type="email"
+                    />
+                    <input
+                        onChange={this.handleChange}
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                    />
                     <button type="submit">Submit</button>
                 </form>
             </div>
-        )
+        );
     }
 }
 
-export default Registration
+export default Registration;

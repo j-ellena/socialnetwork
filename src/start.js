@@ -1,8 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import Welcome from './Welcome'
+import React from "react";
+import ReactDOM from "react-dom";
+import Welcome from "./Welcome";
+import Logo from "./Logo";
 
 ReactDOM.render(
-    <Welcome />,
-    document.querySelector('main')
-)
+    location.pathname === "/welcome" ? <Welcome /> : <Logo />,
+    document.querySelector("main")
+);

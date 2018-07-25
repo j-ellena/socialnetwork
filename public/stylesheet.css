@@ -1,9 +1,42 @@
-.big-momma-component {
+* {
+    margin: 0;
+    outline: 0;
+    box-sizing: border-box;
+    font-size: 1.5vw;
+    /* font-family: "Open Sans", sans-serif; */
+    /* color: white; */
+}
+
+body {
+    /* background-image: url("../assets/bike_racks.jpeg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; */
+    /* opacity: 0.6; */
+    background-color: darkgrey;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+.welcome-component {
     background-color: green;
     padding: 15px;
 }
 
-.registration {
+.logo-component {
+    background-color: red;
+    padding: 15px;
+}
+
+.registration-component {
     background-color: yellow;
     padding: 15px;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
