@@ -7,7 +7,7 @@ const compression = require('compression');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const bc = require('./config/bcrypt');
-// const csurf = require('csurf');
+const csurf = require('csurf');
 
 // *****************************************************************************
 // middleware
@@ -31,11 +31,11 @@ app.use(
 //     res.sendStatus(204);
 // });
 
-// app.use(csurf());
-// app.use((req, res, next) => {
-//     res.locals.csrfToken = req.csrfToken();
-//     next();
-// });
+app.use(csurf());
+app.use(function(req, res, next){
+    res.cookie('mytoken', req.csrfToken());
+    next();
+});
 
 // app.use((req, res, next) => {
 //     res.locals.logged = req.session.user || false;
