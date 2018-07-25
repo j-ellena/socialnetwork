@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
 function Logo() {
     return (
-        <div className="logo-component">
+        <div id='logo-component'>
             <h1>Jellena logo</h1>
         </div>
     );

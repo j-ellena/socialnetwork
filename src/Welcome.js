@@ -1,10 +1,11 @@
-import React from "react";
-import Logo from "./Logo";
-import Registration from "./Registration";
+import React from 'react';
+import Logo from './Logo';
+import Registration from './Registration';
 
 function Welcome() {
     return (
-        <div className="welcome-component">
+        <div id='welcome-component'>
+
             <Logo />
 
             <h1>Welcome to Jellena virtual network!</h1>
@@ -12,8 +13,9 @@ function Welcome() {
             <Registration />
 
             <div>
-                If you have already registered, please <a href="">log in</a>
+                If you have already registered, please <a href=''>log in</a>
             </div>
+
         </div>
     );
 }
