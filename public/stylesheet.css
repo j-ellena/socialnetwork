@@ -34,7 +34,12 @@ body {
     padding: 15px;
 }
 
-#registration-form {
+#login-component {
+    background-color: green;
+    padding: 15px;
+}
+
+#form {
     display: flex;
     flex-direction: column;
     justify-content: center;

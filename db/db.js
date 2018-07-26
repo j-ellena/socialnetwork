@@ -7,7 +7,7 @@ let db;
 ;
 
 // *****************************************************************************
-// users table queries
+// registration queries
 // *****************************************************************************
 
 exports.insertUser = (firstName, lastName, email, hashedPassword) => {
@@ -22,9 +22,9 @@ exports.insertUser = (firstName, lastName, email, hashedPassword) => {
         .then(results => {
             return results.rows[0];
         })
-        .catch(error => {
-            console.log('§§§§§§§§§§§§§§ db.insertUser error: \n', error);
-            throw error;
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.insertUser error: \n', err);
+            throw err;
         });
 };
 
@@ -38,9 +38,45 @@ exports.getEmail = email => {
             if (results.rows[0] !== undefined)
                 throw new Error('This email is already registered!');
         })
-        .catch(error => {
-            console.log('§§§§§§§§§§§§§§ db.getEmail error: \n', error);
-            throw error;
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.getEmail error: \n', err);
+            throw err;
+        });
+};
+
+// *****************************************************************************
+// login queries
+// *****************************************************************************
+
+exports.getPassword = email => {
+    const params = [email];
+    const q = `
+            SELECT hashed_password FROM users WHERE email = $1;
+            `;
+    return db.query(q, params)
+        .then(results => {
+            if (results.rows[0] === undefined)
+                throw new Error("Email not found!");
+            return results.rows[0].hashed_password;
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.getPassword error: \n', err);
+            throw err;
+        });
+};
+
+exports.getUser = email => {
+    const params = [email];
+    const q = `
+            SELECT id, first_name, last_name, email FROM users WHERE email = $1;
+            `;
+    return db.query(q, params)
+        .then(results => {
+            return results.rows[0];
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.getUser error: \n', err);
+            throw err;
         });
 };
 

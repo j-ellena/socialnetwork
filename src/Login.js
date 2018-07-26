@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from './axios';
 
-class Registration extends Component {
+class Login extends Component {
     constructor() {
         super();
 
@@ -22,18 +22,20 @@ class Registration extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        axios.post('/registration', this.state)
-            .then(() => location.replace('/'))
-            .catch((err) =>
+        axios.post('/login', this.state)
+            .then(() => {
+                location.replace('/');
+            })
+            .catch((err) => {
                 this.setState({
                     error: err.response.data.error
-                })
-            );
+                });
+            });
     }
 
     render() {
         return (
-            <div id='registration-component'>
+            <div id='login-component'>
 
                 {
                     (this.state.error)
@@ -42,24 +44,12 @@ class Registration extends Component {
                         : null
                 }
 
-                <h1>Please register:</h1>
+                <h1>Please log in:</h1>
 
                 <form
                     onSubmit={this.handleSubmit}
                     id='form'
                 >
-                    <input
-                        onChange={this.handleChange}
-                        name='firstName'
-                        placeholder='First name'
-                        type='text'
-                    />
-                    <input
-                        onChange={this.handleChange}
-                        name='lastName'
-                        placeholder='Last name'
-                        type='text'
-                    />
                     <input
                         onChange={this.handleChange}
                         name='email'
@@ -79,4 +69,4 @@ class Registration extends Component {
     }
 }
 
-export default Registration;
+export default Login;

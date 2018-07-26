@@ -1,6 +1,8 @@
 import React from 'react';
+import { HashRouter, Route, Link } from 'react-router-dom';
 import Logo from './Logo';
 import Registration from './Registration';
+import Login from "./Login";
 
 function Welcome() {
     return (
@@ -10,11 +12,14 @@ function Welcome() {
 
             <h1>Welcome to Jellena virtual network!</h1>
 
-            <Registration />
-
-            <div>
-                If you have already registered, please <a href=''>log in</a>
-            </div>
+            <HashRouter>
+                <div>
+                    <Route exact path="/" component={Registration} />
+                    <Route path="/Login" component={Login} />
+                    <h6>If you have already registered,
+                     please <Link to="/Login">log in!</Link></h6>
+                </div>
+            </HashRouter>
 
         </div>
     );
