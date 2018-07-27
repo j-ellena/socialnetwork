@@ -8,6 +8,35 @@ const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const bc = require('./config/bcrypt');
 const csurf = require('csurf');
+const multer = require('multer');
+const uidSafe = require('uid-safe');
+const path = require('path');
+const s3 = require("./s3");
+const config = require("./config");
+
+// *****************************************************************************
+// upload to aws
+// *****************************************************************************
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
+
+const handleFile = uploader.single("file");
 
 // *****************************************************************************
 // middleware
@@ -55,6 +84,18 @@ process.env.NODE_ENV != 'production'
 // *****************************************************************************
 // handy functions
 // *****************************************************************************
+
+// function checkForLog(req, res, next) {
+//     if (!req.session.user) {
+//         res.redirect('/welcome');
+//     } else {
+//         if (req.url === '/welcome') {
+//             res.redirect('/');
+//         } else {
+//             next();
+//         }
+//     }
+// }
 
 function checkForLog(req, res, next) {
     !req.session.user
@@ -155,23 +196,60 @@ app.post('/login', (req, res) => {
 
 });
 
+app.post("/uploadImage", handleFile, s3.upload, (req, res) => {
+    const image = config.s3Url + req.file.filename;
+
+    db.updateImage(req.session.user.id, image)
+        .then(() => {
+            res.json({
+                image: image
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+});
+
 // *****************************************************************************
 // get routes
 // *****************************************************************************
 
-app.get(
-    '/welcome',
-    (req, res) =>
-        req.session.user
-            ? res.redirect('/')
-            : res.sendFile(`${__dirname}/index.html`)
+app.get("/user", checkForLog, (req, res) => {
+    db.getUser(req.session.user.email)
+        .then(data => {
+            res.json({
+                ...data,
+                image: data.image || '/assets/default.png'
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+});
+
+// app.get('/logout', (req, res) => {
+//     req.session = null;
+//     res.redirect('/welcome');
+// });
+
+app.get('/welcome', (req, res) =>
+    (req.session.user)
+        ? res.redirect('/')
+        : res.sendFile(`${__dirname}/index.html`)
+    // res.sendFile(`${__dirname}/index.html`)
 );
 
-app.get('*', checkForLog, (req, res) =>
-    res.sendFile(`${__dirname}/index.html`)
+app.get('*', (req, res) =>
+    (!req.session.user)
+        ? res.redirect('/welcome')
+        : res.sendFile(`${__dirname}/index.html`)
+    // res.sendFile(`${__dirname}/index.html`)
 );
 
 // *****************************************************************************
 // *****************************************************************************
 
-app.listen(process.env.PORT || 8080, () => console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ \n ...listening'));
+app.listen(process.env.PORT || 8080,
+    () => console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ \n ...listening'));

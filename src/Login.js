@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from './axios';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
     constructor() {
@@ -23,9 +24,7 @@ class Login extends Component {
         e.preventDefault();
 
         axios.post('/login', this.state)
-            .then(() => {
-                location.replace('/');
-            })
+            .then(() => location.replace('/'))
             .catch((err) => {
                 this.setState({
                     error: err.response.data.error
@@ -64,6 +63,8 @@ class Login extends Component {
                     />
                     <button type='submit'>Submit</button>
                 </form>
+                <h6>If you haven&apos;t already registered,
+                 please <Link className='link' to='/'>register!</Link></h6>
             </div>
         );
     }

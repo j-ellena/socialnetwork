@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Welcome from './Welcome';
-import Logo from './Logo';
+import App from './App';
 
 ReactDOM.render(
     (location.pathname === '/welcome')
         ? <Welcome />
-        : <Logo />
+        : <App />
     ,
     document.querySelector('main')
 );

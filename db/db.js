@@ -16,7 +16,7 @@ exports.insertUser = (firstName, lastName, email, hashedPassword) => {
              INSERT INTO users
                 (first_name, last_name, email, hashed_password)
                 VALUES ($1, $2, $3, $4)
-             RETURNING id, first_name, last_name, email;
+                RETURNING id, first_name, last_name, email;
               `;
     return db.query(q, params)
         .then(results => {
@@ -31,7 +31,9 @@ exports.insertUser = (firstName, lastName, email, hashedPassword) => {
 exports.getEmail = email => {
     const params = [email];
     const q = `
-            SELECT * FROM users WHERE email = $1;
+            SELECT *
+                FROM users
+                WHERE email = $1;
             `;
     return db.query(q, params)
         .then(results => {
@@ -51,12 +53,14 @@ exports.getEmail = email => {
 exports.getPassword = email => {
     const params = [email];
     const q = `
-            SELECT hashed_password FROM users WHERE email = $1;
+            SELECT hashed_password
+                FROM users
+                WHERE email = $1;
             `;
     return db.query(q, params)
         .then(results => {
             if (results.rows[0] === undefined)
-                throw new Error("Email not found!");
+                throw new Error('Email not found!');
             return results.rows[0].hashed_password;
         })
         .catch(err => {
@@ -68,7 +72,9 @@ exports.getPassword = email => {
 exports.getUser = email => {
     const params = [email];
     const q = `
-            SELECT id, first_name, last_name, email FROM users WHERE email = $1;
+            SELECT id, first_name, last_name, email, image, bio
+                FROM users
+                WHERE email = $1;
             `;
     return db.query(q, params)
         .then(results => {
@@ -81,5 +87,24 @@ exports.getUser = email => {
 };
 
 // *****************************************************************************
-//
+// uploader queries
 // *****************************************************************************
+
+exports.updateImage = (id, image) => {
+    const params = [id, image];
+    const q = `
+            UPDATE users
+                SET image = $2
+                WHERE id = $1
+                RETURNING *;
+            `;
+
+    return db.query(q, params)
+        .then(results => {
+            return results.rows[0].image;
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.updateImage error: \n', err);
+            throw err;
+        });
+};

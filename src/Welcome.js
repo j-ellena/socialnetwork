@@ -1,8 +1,8 @@
 import React from 'react';
-import { HashRouter, Route, Link } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 import Logo from './Logo';
 import Registration from './Registration';
-import Login from "./Login";
+import Login from './Login';
 
 function Welcome() {
     return (
@@ -14,10 +14,8 @@ function Welcome() {
 
             <HashRouter>
                 <div>
-                    <Route exact path="/" component={Registration} />
-                    <Route path="/Login" component={Login} />
-                    <h6>If you have already registered,
-                     please <Link to="/Login">log in!</Link></h6>
+                    <Route exact path='/' component={Registration} />
+                    <Route path='/Login' component={Login} />
                 </div>
             </HashRouter>
 

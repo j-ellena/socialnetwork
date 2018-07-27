@@ -2,7 +2,7 @@
     margin: 0;
     outline: 0;
     box-sizing: border-box;
-    font-size: 2vw;
+    font-size: 3vw;
     /* font-family: 'Open Sans', sans-serif; */
     /* color: white; */
 }
@@ -19,24 +19,93 @@ body {
     min-height: 100vh;
 }
 
+#file {
+    transform: translateX(-3000px);
+}
+
+#label-file {
+    cursor: pointer;
+    border: 0.5vw white solid;
+    border-radius: 3vw;
+    background-color: darkgrey;
+    color: white;
+    padding: 1vw 3vw;
+    margin: 1vw 3vw;
+}
+
+#label-file:hover{
+    background-color: white;
+    color: darkgrey;
+}
+
+input {
+    cursor: pointer;
+    border: 0.5vw white solid;
+    border-radius: 3vw;
+    background-color: white;
+    color: darkgrey;
+    padding: 1vw 3vw;
+    margin: 1vw 3vw;
+}
+
+input::-webkit-input-placeholder {
+    color: darkgrey;
+}
+
+button {
+    cursor: pointer;
+    border: 0.5vw white solid;
+    border-radius: 3vw;
+    background-color: white;
+    color: darkgrey;
+    padding: 1vw 3vw;
+    margin: 1vw 3vw;
+}
+
+button:hover {
+    color: white;
+    background: none;
+}
+
+.link {
+    cursor: pointer;
+    text-decoration: none;
+    color: purple;
+}
+
+.link:hover {
+    background-color: pink;
+    color: black;
+}
+
+#error-message {
+    background-color: red;
+    border-radius: 3vw;
+    padding: 5vw;
+}
+
 #welcome-component {
     background-color: blue;
-    padding: 15px;
+    border-radius: 3vw;
+    padding: 3vw;
 }
 
 #logo-component {
     background-color: purple;
-    padding: 15px;
+    border-radius: 3vw;
+    padding: 3vw;
 }
 
 #registration-component {
     background-color: yellow;
-    padding: 15px;
+    border-radius: 3vw;
+    padding: 3vw;
 }
 
 #login-component {
     background-color: green;
-    padding: 15px;
+    border-radius: 3vw;
+    padding: 3vw;
 }
 
 #form {
@@ -50,6 +119,46 @@ body {
  font-size: 100px;
 }
 
-#error-message {
-    background-color: red;
-    padding: 15px;}
+
+#profile-pic-img {
+    width: 20vw;
+    padding: 1vw;
+    border: 0.5vw white solid;
+    border-radius: 50%;
+}
+
+#uploader-component {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#uploader-popup {
+    position: fixed;
+    top: 20vh;
+    left: 20vw;
+    bottom: 20vh;
+    right: 20vw;
+    padding: 1vw;
+    background-color: darkgrey;
+    border: 0.7vw solid white;
+    border-radius: 3vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#uploader-x {
+    font-size: 4vw;
+    cursor: pointer;
+    margin-left: auto;
+    margin-bottom: auto;
+}
+
+#uploader-form {
+    margin: auto;
+}
