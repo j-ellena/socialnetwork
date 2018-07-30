@@ -1,63 +1,85 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from './axios';
 
-function Uploader ({setImage, hideUploader}) {
-    let imageFile;
+class Uploader extends Component {
 
-    function getSelected(e) {
-        imageFile = e.target.files[0];
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            imageFile: null,
+            error: null
+        };
+
+        this.getSelected = this.getSelected.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
-    function uploadImage() {
+    getSelected(e) {
+        this.setState({
+            imageFile : e.target.files[0]});
+    }
+
+    uploadImage() {
         let formData = new FormData();
-        // if (this.state.imageFile == '') {
-        //     this.setState({
-        //         error: 'Please, select a file to upload'
-        //     });
-        // } else {
-        formData.append('file', imageFile);
-        axios.post('/uploadImage', formData)
-            .then((response) => {
-                setImage(response.data.image);
-            })
-            .catch((err) => console.log(err));
+        if (this.state.imageFile === null) {
+            this.setState({
+                error : 'Please select an image file!'});
+        } else {
+            formData.append('file', this.state.imageFile);
+            axios.post('/uploadImage', formData)
+                .then((response) => this.props.setImage(response.data))
+                .catch((err) => {
+                    this.setState({
+                        error : err.response.data.error});
+                });
+        }
     }
 
-    function handlePropagation(e) {
+    handlePropagation(e) {
         e.stopPropagation();
     }
 
-    return (
-        <div id='uploader-component' onClick={hideUploader}>
+    render() {
+        return (
+            <div id='uploader-component' onClick={this.props.hideUploader}>
 
-            <div id='uploader-popup' onClick={handlePropagation}>
+                <div id='uploader-popup' onClick={this.handlePropagation}>
 
-                <h1 id='uploader-x' onClick={hideUploader}>X</h1>
+                    <h1 id='uploader-x' onClick={this.props.hideUploader}>X</h1>
 
-                <div id='uploader-form'>
-                    <p>Want to change your profile image?</p>
+                    {
+                        (this.state.error)
+                            ? <div id='error-message'>
+                          ERROR: {this.state.error}</div>
+                            : null
+                    }
 
-                    <label
-                        id='label-file'
-                        htmlFor='file'>
+                    <div id='uploader-form'>
+                        <p>Want to change your profile image?</p>
+
+                        <label
+                            id='label-file'
+                            htmlFor='file'>
                             Select image
-                    </label>
+                        </label>
 
-                    <input
-                        id='file'
-                        type='file'
-                        onChange={getSelected}
-                    />
+                        <input
+                            id='file'
+                            type='file'
+                            onChange={this.getSelected}
+                        />
 
-                    <button
-                        onClick={uploadImage}
-                    >
+                        <button
+                            onClick={this.uploadImage}
+                        >
                         Upload!
-                    </button>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 

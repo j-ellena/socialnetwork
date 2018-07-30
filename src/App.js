@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import axios from './axios';
 import Logo from './Logo';
-import ProfilePic from './ProfilePic';
 import Uploader from './Uploader';
+import Profile from './Profile';
 
 class App extends Component {
+    
     constructor(props) {
         super(props);
 
         this.state = {
+            showBio: false,
             error: null
         };
 
         this.showUploader = this.showUploader.bind(this);
-        this.setImage = this.setImage.bind(this);
         this.hideUploader = this.hideUploader.bind(this);
+        this.setImage = this.setImage.bind(this);
+        this.setBio = this.setBio.bind(this);
+        this.toggleShowBio = this.toggleShowBio.bind(this);
     }
 
     showUploader() {
@@ -36,6 +41,19 @@ class App extends Component {
         });
     }
 
+    setBio(bio) {
+        this.setState({
+            bio: bio
+        });
+    }
+
+    toggleShowBio() {
+        this.setState({
+            showBio: !this.state.showBio
+        });
+    }
+
+
     componentDidMount() {
         axios.get('/user')
             .then(( { data } ) => {
@@ -49,31 +67,51 @@ class App extends Component {
     }
 
     render() {
+
+        // const {  } = this.state;
+
         if (!this.state.id) {
             return (
                 <div>...loading...</div>
             );
         }
+
         return (
             <div id='app'>
 
                 <Logo />
 
-                <ProfilePic
-                    image={this.state.image}
-                    firstName={this.state.first_name}
-                    lastName={this.state.last_name}
-                    showUploader={this.showUploader}
-                />
-
                 {
                     this.state.uploaderIsVisible
-                &&
-                <Uploader
-                    setImage={this.setImage}
-                    hideUploader={this.hideUploader}
-                />
+                    &&
+                    <Uploader
+                        setImage={this.setImage}
+                        hideUploader={this.hideUploader}
+                    />
                 }
+
+                <BrowserRouter>
+                    <div>
+                        <Route
+                            path='/'
+                            render=
+                                {
+                                    () => (
+                                        <Profile
+                                            firstName={ this.state.first_name }
+                                            lastName={ this.state.last_name }
+                                            image={ this.state.image }
+                                            bio={ this.state.bio }
+                                            showBio={ this.state.showBio }
+                                            toggleShowBio={ this.toggleShowBio }
+                                            setBio={ this.setBio }
+                                            showUploader={ this.showUploader }
+                                        />
+                                    )
+                                }
+                        />
+                    </div>
+                </BrowserRouter>
 
             </div>
         );

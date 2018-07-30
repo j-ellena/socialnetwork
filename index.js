@@ -11,8 +11,8 @@ const csurf = require('csurf');
 const multer = require('multer');
 const uidSafe = require('uid-safe');
 const path = require('path');
-const s3 = require("./s3");
-const config = require("./config");
+const s3 = require('./s3');
+const config = require('./config');
 
 // *****************************************************************************
 // upload to aws
@@ -20,7 +20,7 @@ const config = require("./config");
 
 const diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
-        callback(null, __dirname + "/uploads");
+        callback(null, __dirname + '/uploads');
     },
     filename: function(req, file, callback) {
         uidSafe(24).then(function(uid) {
@@ -36,7 +36,7 @@ const uploader = multer({
     }
 });
 
-const handleFile = uploader.single("file");
+const handleFile = uploader.single('file');
 
 // *****************************************************************************
 // middleware
@@ -131,7 +131,7 @@ app.post('/registration', (req, res) => {
                                 res
                                     .status(500)
                                     .json({
-                                        error: "Sorry, internal server error :("
+                                        error: 'Sorry, internal server error :('
                                     });
                             });
                     });
@@ -171,7 +171,7 @@ app.post('/login', (req, res) => {
                                     res
                                         .status(500)
                                         .json({
-                                            error: "Sorry, internal server error :("
+                                            error: 'Sorry, internal server error :('
                                         });
                                 });
                         } else {
@@ -196,14 +196,22 @@ app.post('/login', (req, res) => {
 
 });
 
-app.post("/uploadImage", handleFile, s3.upload, (req, res) => {
+app.post('/uploadImage', handleFile, s3.upload, (req, res) => {
     const image = config.s3Url + req.file.filename;
-
     db.updateImage(req.session.user.id, image)
         .then(() => {
-            res.json({
-                image: image
-            });
+            res.json(image);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+});
+
+app.post('/bio', (req, res) => {
+    db.updateBio(req.session.user.id, req.body.bio)
+        .then(() => {
+            res.end();
         })
         .catch((err) => {
             console.log(err);
@@ -215,7 +223,7 @@ app.post("/uploadImage", handleFile, s3.upload, (req, res) => {
 // get routes
 // *****************************************************************************
 
-app.get("/user", checkForLog, (req, res) => {
+app.get('/user', checkForLog, (req, res) => {
     db.getUser(req.session.user.email)
         .then(data => {
             res.json({
