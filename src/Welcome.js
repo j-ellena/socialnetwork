@@ -14,8 +14,17 @@ function Welcome() {
 
             <HashRouter>
                 <div>
-                    <Route exact path='/' component={Registration} />
-                    <Route path='/Login' component={Login} />
+
+                    <Route
+                        exact path='/'
+                        component={Registration}
+                    />
+
+                    <Route
+                        exact path='/Login'
+                        component={Login}
+                    />
+
                 </div>
             </HashRouter>
 

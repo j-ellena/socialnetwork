@@ -41,16 +41,20 @@ class Profile extends Component {
             if (!this.props.bio) {
                 return (
                     <p onClick={this.props.toggleShowBio}>
-                Click to add your bio
+                        Click to add your bio
                     </p>
                 );
             } else {
-                return (<div>
-                    <p> {this.props.bio} </p>
-                    <p onClick={this.props.toggleShowBio}>
-                        Edit your bio
-                    </p>
-                </div>);
+                return (
+                    <div>
+                        <p>
+                            {this.props.bio}
+                        </p>
+                        <p onClick={this.props.toggleShowBio}>
+                            Edit your bio
+                        </p>
+                    </div>
+                );
             }
         }
     }

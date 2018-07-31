@@ -198,6 +198,7 @@ app.post('/login', (req, res) => {
 
 app.post('/uploadImage', handleFile, s3.upload, (req, res) => {
     const image = config.s3Url + req.file.filename;
+
     db.updateImage(req.session.user.id, image)
         .then(() => {
             res.json(image);
@@ -237,10 +238,27 @@ app.get('/user', checkForLog, (req, res) => {
         });
 });
 
-// app.get('/logout', (req, res) => {
-//     req.session = null;
-//     res.redirect('/welcome');
-// });
+app.get("/user/:id.json", (req, res) => {
+
+    (req.session.user.id === req.params.id)
+
+        ? res.json({
+            redirect: '/'
+        })
+
+        : db.getOther(req.params.id)
+            .then(data => {
+                res.json({
+                    ...data,
+                    image: data.image || '/assets/default.png'
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(500);
+            });
+
+});
 
 app.get('/welcome', (req, res) =>
     (req.session.user)
@@ -248,6 +266,11 @@ app.get('/welcome', (req, res) =>
         : res.sendFile(`${__dirname}/index.html`)
     // res.sendFile(`${__dirname}/index.html`)
 );
+
+// app.get('/logout', (req, res) => {
+//     req.session = null;
+//     res.redirect('/welcome');
+// });
 
 app.get('*', (req, res) =>
     (!req.session.user)

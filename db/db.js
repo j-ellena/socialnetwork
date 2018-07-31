@@ -131,3 +131,28 @@ exports.updateBio = (id, bio) => {
             throw err;
         });
 };
+
+// *****************************************************************************
+//  other queries
+// *****************************************************************************
+
+exports.getOther = id => {
+    const params = [id];
+    const q = `
+            SELECT id, first_name, last_name, email, image, bio
+                FROM users
+                WHERE id = $1;
+            `;
+    return db.query(q, params)
+        .then(results => {
+            return results.rows[0];
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.getOther error: \n', err);
+            throw err;
+        });
+};
+
+// *****************************************************************************
+//  
+// *****************************************************************************

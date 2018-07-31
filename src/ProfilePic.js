@@ -1,6 +1,8 @@
 import React from 'react';
 
-function ProfilePic({ image, firstName, lastName, showUploader }) {
+function ProfilePic(props) {
+
+    const {image, firstName, lastName, showUploader} = props;
 
     return (
         <div id='profile-pic-component'>

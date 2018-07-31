@@ -2,10 +2,10 @@ import React from 'react';
 
 function Logo() {
     return (
-        <div id='logo-component'>
+        <div className='logo-component header'>
 
             <h1>Jellena logo</h1>
-            
+
         </div>
     );
 }

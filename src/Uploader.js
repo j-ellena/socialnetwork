@@ -20,11 +20,14 @@ class Uploader extends Component {
             imageFile : e.target.files[0]});
     }
 
-    uploadImage() {
+    uploadImage(e) {
+        e.preventDefault();
+
         let formData = new FormData();
         if (this.state.imageFile === null) {
             this.setState({
-                error : 'Please select an image file!'});
+                error : 'Please select an image file!'
+            });
         } else {
             formData.append('file', this.state.imageFile);
             axios.post('/uploadImage', formData)
@@ -50,32 +53,34 @@ class Uploader extends Component {
 
                     {
                         (this.state.error)
-                            ? <div id='error-message'>
-                          ERROR: {this.state.error}</div>
+                            ? <div className='error-message'>
+                                ERROR: {this.state.error}
+                            </div>
                             : null
                     }
 
-                    <div id='uploader-form'>
+                    <form
+                        id='uploader-form'
+                        onSubmit={this.uploadImage}
+                    >
                         <p>Want to change your profile image?</p>
 
                         <label
                             id='label-file'
-                            htmlFor='file'>
-                            Select image
+                            htmlFor='file'
+                        >
+                                Select image
                         </label>
-
                         <input
                             id='file'
                             type='file'
                             onChange={this.getSelected}
                         />
-
-                        <button
-                            onClick={this.uploadImage}
-                        >
-                        Upload!
+                        <button type='submit'>
+                            Upload!
                         </button>
-                    </div>
+                    </form>
+
                 </div>
             </div>
         );

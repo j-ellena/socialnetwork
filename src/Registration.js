@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from './axios';
 
 class Registration extends Component {
+
     constructor() {
         super();
 
@@ -38,8 +39,9 @@ class Registration extends Component {
 
                 {
                     (this.state.error)
-                        ? <div id='error-message'>
-                              ERROR: {this.state.error}</div>
+                        ? <div className='error-message'>
+                              ERROR: {this.state.error}
+                        </div>
                         : null
                 }
 
@@ -73,11 +75,13 @@ class Registration extends Component {
                         placeholder='Password'
                         type='password'
                     />
-                    <button type='submit'>Submit</button>
+                    <button type='submit'>
+                        Submit
+                    </button>
                 </form>
 
                 <h6>If you have already registered,
-                 please <Link className='link' to='/Login'>log in!</Link></h6>
+                 please <Link className='link' to='/Login'>log in</Link>!</h6>
 
             </div>
         );

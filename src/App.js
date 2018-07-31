@@ -4,9 +4,10 @@ import axios from './axios';
 import Logo from './Logo';
 import Uploader from './Uploader';
 import Profile from './Profile';
+import OthersProfiles from './OthersProfiles';
 
 class App extends Component {
-    
+
     constructor(props) {
         super(props);
 
@@ -53,7 +54,6 @@ class App extends Component {
         });
     }
 
-
     componentDidMount() {
         axios.get('/user')
             .then(( { data } ) => {
@@ -72,7 +72,9 @@ class App extends Component {
 
         if (!this.state.id) {
             return (
-                <div>...loading...</div>
+                <div>
+                    ...loading...
+                </div>
             );
         }
 
@@ -109,6 +111,10 @@ class App extends Component {
                                         />
                                     )
                                 }
+                        />
+                        <Route
+                            path='/user/:id'
+                            component={OthersProfiles}
                         />
                     </div>
                 </BrowserRouter>

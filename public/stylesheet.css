@@ -78,7 +78,7 @@ button:hover {
     color: black;
 }
 
-#error-message {
+.error-message {
     background-color: red;
     border-radius: 3vw;
     padding: 5vw;
@@ -166,4 +166,15 @@ button:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#others-profiles-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#others-profiles-component img {
+    width: 10vw;
 }
