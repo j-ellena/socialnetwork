@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import axios from './axios';
 import Logo from './Logo';
-import Uploader from './Uploader';
 import Profile from './Profile';
 import OthersProfiles from './OthersProfiles';
 
@@ -12,8 +11,8 @@ class App extends Component {
         super(props);
 
         this.state = {
-            showBio: false,
-            error: null
+            showBio : false,
+            error : null
         };
 
         this.showUploader = this.showUploader.bind(this);
@@ -25,19 +24,19 @@ class App extends Component {
 
     showUploader() {
         this.setState({
-            uploaderIsVisible: true
+            uploaderIsVisible : true
         });
     }
 
     hideUploader() {
         this.setState({
-            uploaderIsVisible: false
+            uploaderIsVisible : false
         });
     }
 
     setImage(image) {
         this.setState({
-            uploaderIsVisible: false,
+            uploaderIsVisible : false,
             image: image
         });
     }
@@ -50,18 +49,16 @@ class App extends Component {
 
     toggleShowBio() {
         this.setState({
-            showBio: !this.state.showBio
+            showBio : !this.state.showBio
         });
     }
 
     componentDidMount() {
         axios.get('/user')
-            .then(( { data } ) => {
-                this.setState(data);
-            })
+            .then(( { data } ) => this.setState(data))
             .catch((err) =>
                 this.setState({
-                    error: err.response.data.error
+                    error : err.response.data.error
                 })
             );
     }
@@ -81,40 +78,40 @@ class App extends Component {
         return (
             <div id='app'>
 
-                <Logo />
+                <a href='/logout'>
+                    <button>
+                        Logout
+                    </button>
+                </a>
 
-                {
-                    this.state.uploaderIsVisible
-                    &&
-                    <Uploader
-                        setImage={this.setImage}
-                        hideUploader={this.hideUploader}
-                    />
-                }
+                <Logo />
 
                 <BrowserRouter>
                     <div>
                         <Route
-                            path='/'
+                            exact path='/'
                             render=
                                 {
                                     () => (
                                         <Profile
-                                            firstName={ this.state.first_name }
-                                            lastName={ this.state.last_name }
-                                            image={ this.state.image }
-                                            bio={ this.state.bio }
-                                            showBio={ this.state.showBio }
-                                            toggleShowBio={ this.toggleShowBio }
-                                            setBio={ this.setBio }
-                                            showUploader={ this.showUploader }
+                                            firstName=         { this.state.first_name }
+                                            lastName=          { this.state.last_name }
+                                            image=             { this.state.image }
+                                            bio=               { this.state.bio }
+                                            setImage=          { this.setImage }
+                                            setBio=            { this.setBio }
+                                            showBio=           { this.state.showBio }
+                                            uploaderIsVisible= { this.state.uploaderIsVisible }
+                                            toggleShowBio=     { this.toggleShowBio }
+                                            showUploader=      { this.showUploader }
+                                            hideUploader=      { this.hideUploader }
                                         />
                                     )
                                 }
                         />
                         <Route
-                            path='/user/:id'
-                            component={OthersProfiles}
+                            exact path='/user/:id'
+                            component={ OthersProfiles }
                         />
                     </div>
                 </BrowserRouter>

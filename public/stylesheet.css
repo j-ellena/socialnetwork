@@ -108,19 +108,12 @@ button:hover {
     padding: 3vw;
 }
 
-#form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 #welcome-component #logo-component h1 {
  font-size: 100px;
 }
 
 
-#profile-pic-img {
+#profile-pic-component img {
     width: 20vw;
     padding: 1vw;
     border: 0.5vw white solid;
@@ -159,7 +152,7 @@ button:hover {
     margin-bottom: auto;
 }
 
-#uploader-form {
+form {
     margin: auto;
     width: 100%;
     display: flex;

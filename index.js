@@ -104,7 +104,7 @@ function checkForLog(req, res, next) {
 }
 
 // *****************************************************************************
-// post routes
+// registration route
 // *****************************************************************************
 
 app.post('/registration', (req, res) => {
@@ -145,6 +145,10 @@ app.post('/registration', (req, res) => {
                     });
             });
 });
+
+// *****************************************************************************
+// login route
+// *****************************************************************************
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
@@ -196,32 +200,8 @@ app.post('/login', (req, res) => {
 
 });
 
-app.post('/uploadImage', handleFile, s3.upload, (req, res) => {
-    const image = config.s3Url + req.file.filename;
-
-    db.updateImage(req.session.user.id, image)
-        .then(() => {
-            res.json(image);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.sendStatus(500);
-        });
-});
-
-app.post('/bio', (req, res) => {
-    db.updateBio(req.session.user.id, req.body.bio)
-        .then(() => {
-            res.end();
-        })
-        .catch((err) => {
-            console.log(err);
-            res.sendStatus(500);
-        });
-});
-
 // *****************************************************************************
-// get routes
+// user routes
 // *****************************************************************************
 
 app.get('/user', checkForLog, (req, res) => {
@@ -238,12 +218,12 @@ app.get('/user', checkForLog, (req, res) => {
         });
 });
 
-app.get("/user/:id.json", (req, res) => {
+app.get('/user/:id.json', (req, res) => {
 
-    (req.session.user.id === req.params.id)
+    (req.session.user.id == req.params.id)
 
         ? res.json({
-            redirect: '/'
+            redirect: true
         })
 
         : db.getOther(req.params.id)
@@ -260,6 +240,124 @@ app.get("/user/:id.json", (req, res) => {
 
 });
 
+// *****************************************************************************
+// image route
+// *****************************************************************************
+
+app.post('/image', handleFile, s3.upload, (req, res) => {
+    const image = config.s3Url + req.file.filename;
+
+    db.updateImage(req.session.user.id, image)
+        .then(() => res.json(image))
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+});
+
+// *****************************************************************************
+// bio route
+// *****************************************************************************
+
+app.post('/bio', (req, res) => {
+    db.updateBio(req.session.user.id, req.body.bio)
+        .then(() => {
+            res.end();
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+});
+
+// *****************************************************************************
+// friendship routes
+// *****************************************************************************
+
+app.get('/friendship/:id', (req, res) => {
+    db.checkFriendship(req.session.user.id, req.params.id)
+        .then( (data) => {
+
+            let text = '';
+            const { status, sender_id } = data;
+
+            if (status === 0) {
+                text = 'Make a new friend!';
+            } else if (status === 2) {
+                text = 'End friendship :(';
+            } else if (status === 1) {
+                text = req.session.user.id === sender_id
+                    ? 'Cancel friend request :|'
+                    : 'Accept friendship :)';
+            }
+
+            const response = {
+                ...data,
+                text
+            };
+
+            res.json(response);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+});
+
+app.post('/friendship/:id', (req, res) => {
+
+    const { status } = req.body;
+
+    if (status == 0) {
+        db.insertFriendship(req.session.user.id, req.params.id)
+            .then( (data) => {
+                res.json({
+                    ...data,
+                    text: 'Cancel friend request :|'
+                });
+            })
+            .catch(() => res.sendStatus(500));
+
+    } else if (status == 2) {
+        db.deleteFriendship(req.session.user.id, req.params.id)
+            .then( (data) => {
+                res.json({
+                    ...data,
+                    text: 'Make a new friend!'
+                });
+            })
+            .catch(() => res.sendStatus(500));
+
+    } else if (status == 1) {
+
+        if (req.session.user.id == req.body.sender_id) {
+            db.deleteFriendship(req.session.user.id, req.params.id)
+                .then( (data) => {
+                    res.json({
+                        ...data,
+                        text: 'Make a new friend!'
+                    });
+                })
+                .catch(() => res.sendStatus(500));
+
+        } else {
+            db.updateFriendship(req.session.user.id, req.params.id, 2)
+                .then( (data) => {
+                    res.json({
+                        ...data,
+                        text: 'End friendship :('
+                    });
+                })
+                .catch(() => res.sendStatus(500));
+        }
+    }
+});
+
+
+// *****************************************************************************
+//  welcome route
+// *****************************************************************************
+
 app.get('/welcome', (req, res) =>
     (req.session.user)
         ? res.redirect('/')
@@ -267,10 +365,18 @@ app.get('/welcome', (req, res) =>
     // res.sendFile(`${__dirname}/index.html`)
 );
 
-// app.get('/logout', (req, res) => {
-//     req.session = null;
-//     res.redirect('/welcome');
-// });
+// *****************************************************************************
+// logout route
+// *****************************************************************************
+
+app.get('/logout', (req, res) => {
+    req.session = null;
+    res.redirect('/welcome');
+});
+
+// *****************************************************************************
+// * route
+// *****************************************************************************
 
 app.get('*', (req, res) =>
     (!req.session.user)
@@ -280,6 +386,7 @@ app.get('*', (req, res) =>
 );
 
 // *****************************************************************************
+// server listening
 // *****************************************************************************
 
 app.listen(process.env.PORT || 8080,

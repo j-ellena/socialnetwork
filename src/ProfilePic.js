@@ -7,10 +7,10 @@ function ProfilePic(props) {
     return (
         <div id='profile-pic-component'>
 
-            <img id='profile-pic-img'
-                src={image}
-                alt={`${firstName} ${lastName}`}
-                onClick={showUploader}
+            <img
+                src={ image }
+                alt={ `${ firstName } ${ lastName }` }
+                onClick={ showUploader }
             />
 
         </div>

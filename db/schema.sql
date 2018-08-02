@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -10,3 +11,18 @@ CREATE TABLE users (
     bio VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE friendships (
+    id SERIAL PRIMARY KEY,
+    sender_id INT REFERENCES users(id),
+    receiver_id INT REFERENCES users(id),
+    status INT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+-- status 1 = pending
+-- status 2 = accepted
+-- CANCEL or UNFRIEND => DELETE the row
+-- bonuse statuses:
+-- rejected, cancelled, terminated

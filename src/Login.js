@@ -40,25 +40,22 @@ class Login extends Component {
                 {
                     (this.state.error)
                         ? <div className='error-message'>
-                              ERROR: {this.state.error}
+                              ERROR: { this.state.error }
                         </div>
                         : null
                 }
 
                 <h1>Please log in:</h1>
 
-                <form
-                    onSubmit={this.handleSubmit}
-                    id='form'
-                >
+                <form onSubmit={ this.handleSubmit }>
                     <input
-                        onChange={this.handleChange}
+                        onChange={ this.handleChange }
                         name='email'
                         placeholder='Email'
                         type='email'
                     />
                     <input
-                        onChange={this.handleChange}
+                        onChange={ this.handleChange }
                         name='password'
                         placeholder='Password'
                         type='password'

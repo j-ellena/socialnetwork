@@ -40,37 +40,34 @@ class Registration extends Component {
                 {
                     (this.state.error)
                         ? <div className='error-message'>
-                              ERROR: {this.state.error}
+                              ERROR: { this.state.error }
                         </div>
                         : null
                 }
 
                 <h1>Please register:</h1>
 
-                <form
-                    onSubmit={this.handleSubmit}
-                    id='form'
-                >
+                <form onSubmit={ this.handleSubmit }>
                     <input
-                        onChange={this.handleChange}
+                        onChange={ this.handleChange }
                         name='firstName'
                         placeholder='First name'
                         type='text'
                     />
                     <input
-                        onChange={this.handleChange}
+                        onChange={ this.handleChange }
                         name='lastName'
                         placeholder='Last name'
                         type='text'
                     />
                     <input
-                        onChange={this.handleChange}
+                        onChange={ this.handleChange }
                         name='email'
                         placeholder='Email'
                         type='email'
                     />
                     <input
-                        onChange={this.handleChange}
+                        onChange={ this.handleChange }
                         name='password'
                         placeholder='Password'
                         type='password'

@@ -98,7 +98,6 @@ exports.updateImage = (id, image) => {
                 WHERE id = $1
                 RETURNING *;
             `;
-
     return db.query(q, params)
         .then(results => {
             return results.rows[0].image;
@@ -121,7 +120,6 @@ exports.updateBio = (id, bio) => {
                 WHERE id = $1
                 RETURNING *;
             `;
-
     return db.query(q, params)
         .then(results => {
             return results.rows[0].bio;
@@ -154,5 +152,92 @@ exports.getOther = id => {
 };
 
 // *****************************************************************************
-//  
+// friendships queries
+// *****************************************************************************
+
+exports.checkFriendship = (senderId, receiverId) => {
+    const params = [senderId, receiverId];
+    const q = `
+            SELECT status, sender_id, receiver_id
+                FROM friendships
+                WHERE ((sender_id = $1 AND receiver_id = $2)
+                    OR (sender_id = $2 AND receiver_id = $1))
+                    AND (status = 1 OR status = 2);
+            `;
+    return db.query(q, params)
+        .then(results => {
+            return results.rows[0]
+                ? results.rows[0]
+                : {
+                    status: 0,
+                    sender_id: 0,
+                    receiver_id: 0
+                };
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.checkFriendship error: \n', err);
+            throw err;
+        });
+};
+
+exports.insertFriendship = (senderId, receiverId) => {
+    const params = [senderId, receiverId];
+    const q = `
+            INSERT INTO friendships
+                (sender_id, receiver_id)
+                VALUES ($1, $2)
+                RETURNING status, sender_id, receiver_id;
+            `;
+    return db.query(q, params)
+        .then(results => {
+            return results.rows[0];
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.insertFriendship error: \n', err);
+            throw err;
+        });
+};
+
+exports.deleteFriendship = (senderId, receiverId) => {
+    const params = [senderId, receiverId];
+    const q = `
+            DELETE FROM friendships
+                WHERE ((sender_id = $1 AND receiver_id = $2)
+                    OR (sender_id = $2 AND receiver_id = $1))
+            `;
+    return db.query(q, params)
+        .then(() => {
+            return {
+                status: 0,
+                sender_id: 0,
+                receiver_id: 0
+            };
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.deleteFriendship error: \n', err);
+            throw err;
+        });
+};
+
+exports.updateFriendship = (senderId, receiverId, status) => {
+    const params = [senderId, receiverId, status];
+    const q = `
+            UPDATE friendships
+                SET status = $3, updated_at = CURRENT_TIMESTAMP
+                WHERE ((sender_id = $1 AND receiver_id = $2)
+                    OR (sender_id = $2 AND receiver_id = $1))
+                RETURNING status, sender_id, receiver_id;
+            `;
+    return db.query(q, params)
+        .then(results => {
+            return results.rows[0];
+        })
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.updateFriendship error: \n', err);
+            throw err;
+        });
+};
+
+// *****************************************************************************
+//
 // *****************************************************************************

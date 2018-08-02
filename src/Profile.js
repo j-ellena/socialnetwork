@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProfilePic from './ProfilePic';
-import axios from './axios';
+import Uploader from './Uploader';
+import Bio from './Bio';
 
 class Profile extends Component {
 
@@ -11,52 +12,6 @@ class Profile extends Component {
             error: null
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-
-        axios.post('/bio', {bio : this.state.bio})
-            .then(() => {
-                this.props.setBio(this.state.bio);
-                this.props.toggleShowBio();
-            })
-            .catch((err) =>
-                this.setState({
-                    error: err.response.data.error
-                })
-            );
-    }
-
-    handleBio() {
-        if (!this.props.showBio) {
-            if (!this.props.bio) {
-                return (
-                    <p onClick={this.props.toggleShowBio}>
-                        Click to add your bio
-                    </p>
-                );
-            } else {
-                return (
-                    <div>
-                        <p>
-                            {this.props.bio}
-                        </p>
-                        <p onClick={this.props.toggleShowBio}>
-                            Edit your bio
-                        </p>
-                    </div>
-                );
-            }
-        }
     }
 
     render() {
@@ -68,45 +23,40 @@ class Profile extends Component {
 
                 {
                     (this.state.error)
-                        ? <div id='error-message'>
-                            ERROR: {this.state.error}
+                        ? <div className='error-message'>
+                            ERROR: { this.state.error }
                         </div>
                         : null
                 }
 
+                {
+                    this.props.uploaderIsVisible
+                    &&
+                    <Uploader
+                        setImage=     { this.props.setImage }
+                        hideUploader= { this.props.hideUploader }
+                    />
+                }
+
                 <ProfilePic
-                    image={ this.props.image }
-                    firstName={ this.props.firstName }
-                    lastName={ this.props.lastName }
-                    showUploader={ this.props.showUploader }
+                    image=        { this.props.image }
+                    firstName=    { this.props.firstName }
+                    lastName=     { this.props.lastName }
+                    showUploader= { this.props.showUploader }
                 />
 
                 <h1>Profile</h1>
 
                 <h6>
-                    {this.props.firstName} {this.props.lastName}
+                    { this.props.firstName } { this.props.lastName }
                 </h6>
 
-                {this.handleBio()}
-
-                {
-                    (this.props.showBio)
-                        ? ( <form onSubmit={this.handleSubmit}>
-                            <textarea
-                                onChange={this.handleChange}
-                                name='bio'
-                                cols='25'
-                                rows='10'
-                                defaultValue={this.props.bio}
-                            >
-                            </textarea>
-                            <button type='submit'>
-                                Save bio
-                            </button>
-                        </form>
-                        )
-                        : null
-                }
+                <Bio
+                    bio=           { this.props.bio }
+                    showBio=       { this.props.showBio}
+                    setBio=        { this.props.setBio }
+                    toggleShowBio= { this.props.toggleShowBio}
+                />
 
             </div>
         );
