@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { receiveList } from './actions';
+import { receiveList} from './actions';
+import OthersList from './OthersList';
 
 const mapStateToProps = state => {
     return {
@@ -26,62 +26,17 @@ class Friends extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            error: null
-        };
-
-        this.handleList = this.handleList.bind(this);
     }
 
     componentDidMount() {
         this.props.dispatch(receiveList());
     }
 
-    handleList(users, messageText) {
-        if (users.length > 0) {
-            return (
-                users.map(
-                    user => (
-                        <div key={user.id}>
-                            <Link to={`/user/${user.id}`}>
-                                <img src={user.image} />
-                            </Link>
-                            <Link to={`/user/${user.id}`}>
-                                <p>
-                                    {user.first_name} {user.last_name}
-                                </p>
-                            </Link>
-                        </div>
-                    )
-                )
-            );
-        } else {
-            return (
-                <p>
-                    { messageText }
-                </p>
-            );
-        }
-    }
-
-
-    // {
-    //     this.handleList(
-    //         friends,
-    //         'Accept friendship',
-    //         'No new friend requests'
-    //     )
-    // }
-    // }
-
-
-
-
     render() {
 
         const { friends, wannabes, penders } = this.props;
 
-        if (!friends && !wannabes) {
+        if (!friends && !wannabes && !penders) {
             return null;
         }
 
@@ -89,35 +44,35 @@ class Friends extends Component {
             <div id='friends-component'>
 
                 <h1>Friends</h1>
-                <div className='list-users'>
-                    {
-                        this.handleList(
-                            friends,
-                            'No friends to show :(')
-                    }
-                </div>
+                {
+                    friends &&
+                        <OthersList
+                            users=       { friends }
+                            messageText= 'No friends to show :('
+                        />
+                }
 
                 <br></br>
 
                 <h1>Wannabes</h1>
-                <div className='list-users'>
-                    {
-                        this.handleList(
-                            wannabes,
-                            'No received friends requests')
-                    }
-                </div>
+                {
+                    wannabes &&
+                        <OthersList
+                            users=       { wannabes }
+                            messageText= 'No received friend requests'
+                        />
+                }
 
                 <br></br>
 
                 <h1>Penders</h1>
-                <div className='list-users'>
-                    {
-                        this.handleList(
-                            penders,
-                            'No sent friend requests')
-                    }
-                </div>
+                {
+                    penders &&
+                        <OthersList
+                            users=       { penders }
+                            messageText= 'No sent friend requests'
+                        />
+                }
 
             </div>
         );
