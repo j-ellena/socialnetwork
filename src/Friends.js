@@ -4,21 +4,25 @@ import { receiveList} from './actions';
 import OthersList from './OthersList';
 
 const mapStateToProps = state => {
-    return {
-        friends:
-            state.list &&
-            state.list.filter(user =>
-                user.status == 2),
-        wannabes:
-            state.list &&
-            state.list.filter(user =>
-                user.status == 1 &
-                user.id == user.sender_id),
-        penders: state.list &&
-            state.list.filter(user =>
-                user.status == 1 &
-                user.id == user.receiver_id)
+    const props = {
+        friends: [],
+        wannabes: [],
+        penders: []
     };
+
+    if (state.list) {
+        state.list.map(
+            (user) => {
+                if (user.status === 2) props.friends.push(user);
+                else if (user.status === 1) {
+                    if (user.id === user.sender_id) props.wannabes.push(user);
+                    else if (user.id === user.receiver_id) props.penders.push(user);
+                }
+            }
+        );
+    }
+
+    return props;
 };
 
 class Friends extends Component {

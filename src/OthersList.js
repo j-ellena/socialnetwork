@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { postFriendship} from './actions';
+
+const mapStateToProps = state => {
+    return {state};
+};
+
 
 class OthersList extends Component {
 
@@ -8,6 +15,7 @@ class OthersList extends Component {
 
         this.handleList = this.handleList.bind(this);
         this.handleButton = this.handleButton.bind(this);
+
     }
 
     handleList(users, messageText) {
@@ -16,7 +24,7 @@ class OthersList extends Component {
                 users.map(
                     user => (
                         <div key={user.id}>
-                        
+
                             <Link to={`/user/${user.id}`} >
                                 <img src={user.image} />
                             </Link>
@@ -43,7 +51,6 @@ class OthersList extends Component {
     }
 
     handleButton(user) {
-        // onClick={ this.props.dispatch(postFriendship(user)) }
 
         let buttonText = '';
         if (user.status == 2) {
@@ -56,11 +63,15 @@ class OthersList extends Component {
 
         return (
             <button
-
+                onClick={ () => this.handleClick(user) }
             >
                 { buttonText }
             </button>
         );
+    }
+
+    handleClick(user) {
+        this.props.dispatch(postFriendship(user));
     }
 
     render() {
@@ -85,4 +96,4 @@ class OthersList extends Component {
     }
 }
 
-export default OthersList;
+export default connect(mapStateToProps)(OthersList);
