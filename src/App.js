@@ -4,6 +4,7 @@ import axios from './axios';
 import Logo from './Logo';
 import Profile from './Profile';
 import OthersProfiles from './OthersProfiles';
+import Friends from './Friends';
 
 class App extends Component {
 
@@ -11,32 +12,32 @@ class App extends Component {
         super(props);
 
         this.state = {
-            showBio : false,
-            error : null
+            bioFlag: false,
+            error: null
         };
 
         this.showUploader = this.showUploader.bind(this);
         this.hideUploader = this.hideUploader.bind(this);
         this.setImage = this.setImage.bind(this);
         this.setBio = this.setBio.bind(this);
-        this.toggleShowBio = this.toggleShowBio.bind(this);
+        this.toggleBioFlag = this.toggleBioFlag.bind(this);
     }
 
     showUploader() {
         this.setState({
-            uploaderIsVisible : true
+            uploaderFlag : true
         });
     }
 
     hideUploader() {
         this.setState({
-            uploaderIsVisible : false
+            uploaderFlag : false
         });
     }
 
     setImage(image) {
         this.setState({
-            uploaderIsVisible : false,
+            uploaderFlag : false,
             image: image
         });
     }
@@ -47,9 +48,9 @@ class App extends Component {
         });
     }
 
-    toggleShowBio() {
+    toggleBioFlag() {
         this.setState({
-            showBio : !this.state.showBio
+            bioFlag : !this.state.bioFlag
         });
     }
 
@@ -84,6 +85,12 @@ class App extends Component {
                     </button>
                 </a>
 
+                <a href='/friends'>
+                    <button>
+                        Friends
+                    </button>
+                </a>
+
                 <Logo />
 
                 <BrowserRouter>
@@ -100,9 +107,9 @@ class App extends Component {
                                             bio=               { this.state.bio }
                                             setImage=          { this.setImage }
                                             setBio=            { this.setBio }
-                                            showBio=           { this.state.showBio }
-                                            uploaderIsVisible= { this.state.uploaderIsVisible }
-                                            toggleShowBio=     { this.toggleShowBio }
+                                            bioFlag=           { this.state.bioFlag }
+                                            uploaderFlag=      { this.state.uploaderFlag }
+                                            toggleBioFlag=     { this.toggleBioFlag }
                                             showUploader=      { this.showUploader }
                                             hideUploader=      { this.hideUploader }
                                         />
@@ -112,6 +119,10 @@ class App extends Component {
                         <Route
                             exact path='/user/:id'
                             component={ OthersProfiles }
+                        />
+                        <Route
+                            exact path="/friends"
+                            component={ Friends }
                         />
                     </div>
                 </BrowserRouter>

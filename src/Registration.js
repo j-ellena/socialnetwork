@@ -78,7 +78,7 @@ class Registration extends Component {
                 </form>
 
                 <h6>If you have already registered,
-                 please <Link className='link' to='/Login'>log in</Link>!</h6>
+                 please <Link className='link' to='/'>log in</Link>!</h6>
 
             </div>
         );

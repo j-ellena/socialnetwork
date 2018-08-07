@@ -66,7 +66,7 @@ class Login extends Component {
                 </form>
 
                 <h6>If you haven&apos;t already registered,
-                 please <Link className='link' to='/'>register</Link>!</h6>
+                 please <Link className='link' to='/Registration'>register</Link>!</h6>
 
             </div>
         );

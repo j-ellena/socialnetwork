@@ -17,12 +17,12 @@ function Welcome() {
 
                     <Route
                         exact path='/'
-                        component={ Registration }
+                        component={ Login }
                     />
 
                     <Route
-                        path='/Login'
-                        component={ Login }
+                        exact path='/Registration'
+                        component={ Registration }
                     />
 
                 </div>

@@ -30,7 +30,7 @@ class Profile extends Component {
                 }
 
                 {
-                    this.props.uploaderIsVisible
+                    this.props.uploaderFlag
                     &&
                     <Uploader
                         setImage=     { this.props.setImage }
@@ -53,9 +53,9 @@ class Profile extends Component {
 
                 <Bio
                     bio=           { this.props.bio }
-                    showBio=       { this.props.showBio}
+                    bioFlag=       { this.props.bioFlag}
                     setBio=        { this.props.setBio }
-                    toggleShowBio= { this.props.toggleShowBio}
+                    toggleBioFlag= { this.props.toggleBioFlag}
                 />
 
             </div>

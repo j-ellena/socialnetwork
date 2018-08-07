@@ -19,9 +19,7 @@ exports.insertUser = (firstName, lastName, email, hashedPassword) => {
                 RETURNING id, first_name, last_name, email;
               `;
     return db.query(q, params)
-        .then(results => {
-            return results.rows[0];
-        })
+        .then(results => results.rows[0])
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.insertUser error: \n', err);
             throw err;
@@ -77,9 +75,7 @@ exports.getUser = email => {
                 WHERE email = $1;
             `;
     return db.query(q, params)
-        .then(results => {
-            return results.rows[0];
-        })
+        .then(results => results.rows[0])
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.getUser error: \n', err);
             throw err;
@@ -96,12 +92,10 @@ exports.updateImage = (id, image) => {
             UPDATE users
                 SET image = $2
                 WHERE id = $1
-                RETURNING *;
+                RETURNING image;
             `;
     return db.query(q, params)
-        .then(results => {
-            return results.rows[0].image;
-        })
+        .then(results => results.rows[0].image)
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.updateImage error: \n', err);
             throw err;
@@ -118,12 +112,10 @@ exports.updateBio = (id, bio) => {
             UPDATE users
                 SET bio = $2
                 WHERE id = $1
-                RETURNING *;
+                RETURNING bio;
             `;
     return db.query(q, params)
-        .then(results => {
-            return results.rows[0].bio;
-        })
+        .then(results => results.rows[0].bio)
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.updateBio error: \n', err);
             throw err;
@@ -142,9 +134,7 @@ exports.getOther = id => {
                 WHERE id = $1;
             `;
     return db.query(q, params)
-        .then(results => {
-            return results.rows[0];
-        })
+        .then(results => results.rows[0])
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.getOther error: \n', err);
             throw err;
@@ -189,9 +179,7 @@ exports.insertFriendship = (senderId, receiverId) => {
                 RETURNING status, sender_id, receiver_id;
             `;
     return db.query(q, params)
-        .then(results => {
-            return results.rows[0];
-        })
+        .then(results => results.rows[0])
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.insertFriendship error: \n', err);
             throw err;
@@ -229,9 +217,7 @@ exports.updateFriendship = (senderId, receiverId, status) => {
                 RETURNING status, sender_id, receiver_id;
             `;
     return db.query(q, params)
-        .then(results => {
-            return results.rows[0];
-        })
+        .then(results => results.rows[0])
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.updateFriendship error: \n', err);
             throw err;
@@ -239,5 +225,28 @@ exports.updateFriendship = (senderId, receiverId, status) => {
 };
 
 // *****************************************************************************
-//
+// user & friendship query
 // *****************************************************************************
+
+exports.getList = (loggedId) => {
+    const params = [loggedId];
+    const q = `
+            SELECT users.id, sender_id, receiver_id, status, first_name, last_name, image
+                FROM friendships
+                JOIN users
+                ON (
+                    (status = 1 OR status = 2)
+                    AND (
+                        (sender_id = users.id AND receiver_id = $1)
+                        OR
+                        (sender_id = $1 AND receiver_id = users.id)
+                    )
+                )
+            `;
+    return db.query(q, params)
+        .then(results => results.rows)
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.getList error: \n', err);
+            throw err;
+        });
+};

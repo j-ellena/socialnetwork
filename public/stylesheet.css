@@ -2,7 +2,7 @@
     margin: 0;
     outline: 0;
     box-sizing: border-box;
-    font-size: 3vw;
+    font-size: 2.2vw;
     /* font-family: 'Open Sans', sans-serif; */
     /* color: white; */
 }
@@ -170,4 +170,10 @@ form {
 
 #others-profiles-component img {
     width: 10vw;
+}
+
+#friends-component img {
+    width: 5vw;
+    height: 5vw;
+    background-size: contain;
 }

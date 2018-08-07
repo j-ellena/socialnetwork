@@ -27,7 +27,7 @@ class Bio extends Component {
         axios.post('/bio', { bio: this.state.bio })
             .then(() => {
                 this.props.setBio(this.state.bio);
-                this.props.toggleShowBio();
+                this.props.toggleBioFlag();
             })
             .catch((err) =>
                 this.setState({
@@ -37,10 +37,10 @@ class Bio extends Component {
     }
 
     handleBio() {
-        if (!this.props.showBio) {
+        if (!this.props.bioFlag) {
             if (!this.props.bio) {
                 return (
-                    <p onClick={ this.props.toggleShowBio }>
+                    <p onClick={ this.props.toggleBioFlag }>
                         Click to add your bio
                     </p>
                 );
@@ -50,7 +50,7 @@ class Bio extends Component {
                         <p>
                             { this.props.bio }
                         </p>
-                        <p onClick={ this.props.toggleShowBio }>
+                        <p onClick={ this.props.toggleBioFlag }>
                             Edit your bio
                         </p>
                     </div>
@@ -66,7 +66,7 @@ class Bio extends Component {
                 { this.handleBio() }
 
                 {
-                    (this.props.showBio)
+                    (this.props.bioFlag)
                         ? (
                             <form onSubmit={ this.handleSubmit }>
                                 <textarea

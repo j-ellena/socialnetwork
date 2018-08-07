@@ -353,6 +353,20 @@ app.post('/friendship/:id', (req, res) => {
     }
 });
 
+// *****************************************************************************
+//  list routes
+// *****************************************************************************
+
+app.get('/list', (req, res) => {
+    db.getList(req.session.user.id)
+        .then( (list) => {
+            list.forEach(user => {
+                user.image = user.image || '/assets/default.png';
+            });
+            res.json({list});
+        })
+        .catch(() => res.sendStatus(500));
+});
 
 // *****************************************************************************
 //  welcome route
