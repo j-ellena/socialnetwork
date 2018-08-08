@@ -126,7 +126,7 @@ exports.updateBio = (id, bio) => {
 //  other queries
 // *****************************************************************************
 
-exports.getOther = id => {
+exports.getUserById = id => {
     const params = [id];
     const q = `
             SELECT id, first_name, last_name, email, image, bio
@@ -136,7 +136,7 @@ exports.getOther = id => {
     return db.query(q, params)
         .then(results => results.rows[0])
         .catch(err => {
-            console.log('§§§§§§§§§§§§§§ db.getOther error: \n', err);
+            console.log('§§§§§§§§§§§§§§ db.getUserById error: \n', err);
             throw err;
         });
 };
@@ -247,6 +247,25 @@ exports.getList = (loggedId) => {
         .then(results => results.rows)
         .catch(err => {
             console.log('§§§§§§§§§§§§§§ db.getList error: \n', err);
+            throw err;
+        });
+};
+
+// *****************************************************************************
+// socket stuff
+// *****************************************************************************
+
+exports.getUsersByIds = (arrayOfIds) => {
+    const params = [arrayOfIds];
+    const q = `
+            SELECT *
+                FROM users
+                WHERE id = ANY($1)
+            `;
+    return db.query(q, params)
+        .then(results => results.rows)
+        .catch(err => {
+            console.log('§§§§§§§§§§§§§§ db.getUsersByIds error: \n', err);
             throw err;
         });
 };

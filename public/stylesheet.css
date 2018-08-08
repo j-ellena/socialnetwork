@@ -170,9 +170,17 @@ form {
 
 #others-profiles-component img {
     width: 10vw;
+    height: 10vw;
+    background-size: contain;
 }
 
 #friends-component img {
+    width: 5vw;
+    height: 5vw;
+    background-size: contain;
+}
+
+#online-users-component img {
     width: 5vw;
     height: 5vw;
     background-size: contain;

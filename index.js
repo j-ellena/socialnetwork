@@ -2,6 +2,8 @@ console.log('\x1Bc');
 
 const express = require('express');
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server, { origins: 'localhost:8080' });
 const db = require('./db/db');
 const compression = require('compression');
 const bodyParser = require('body-parser');
@@ -49,12 +51,14 @@ app.use(bodyParser.json());
 
 app.use(compression());
 
-app.use(
-    cookieSession({
-        secret: '...my secret cookie session :)',
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: '...my secret cookie session :)',
+    maxAge: 1000 * 60 * 60 * 24 * 14
+});
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 app.use(function(req, res, next){
@@ -226,7 +230,7 @@ app.get('/user/:id.json', (req, res) => {
             redirect: true
         })
 
-        : db.getOther(req.params.id)
+        : db.getUserById(req.params.id)
             .then(data => {
                 res.json({
                     ...data,
@@ -403,5 +407,49 @@ app.get('*', (req, res) =>
 // server listening
 // *****************************************************************************
 
-app.listen(process.env.PORT || 8080,
+server.listen(process.env.PORT || 8080,
     () => console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ \n ...listening'));
+
+// *****************************************************************************
+// socket stuff
+// *****************************************************************************
+
+let onlineUsers = {};
+
+io.on('connection', (socket) => {
+    if (!socket.request.session || !socket.request.session.user) {
+        return socket.disconnect(true);
+    }
+
+    const socketId = socket.id;
+    const userId = socket.request.session.user.id;
+    onlineUsers[socketId] = userId;
+
+    db.getUsersByIds(Object.values(onlineUsers))
+        .then(data => {
+            data.forEach(user => {
+                user.image = user.image || '/assets/default.png';
+            });
+            socket.emit('onlineUsers', data);
+        })
+        .catch(err => console.log(err));
+    if (
+        Object.values(onlineUsers).filter(id => id == userId).length == 1
+    ) {
+        db.getUserById(userId)
+            .then(data => socket.broadcast.emit('userJoined', data))
+            .catch(err => console.log(err));
+    }
+
+    socket.on('disconnect', () => {
+        if (
+            Object.values(onlineUsers).filter(id => id == userId).length == 1
+        ) {
+            db.getUserById(userId)
+                .then(data => socket.broadcast.emit('userLeft', data))
+                .catch(err => console.log(err));
+        }
+        delete onlineUsers[socketId];
+    });
+
+});

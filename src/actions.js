@@ -18,3 +18,24 @@ export async function postFriendship(user) {
         receiver_id: data.receiver_id
     };
 }
+
+export function onlineUsers(users) {
+    return {
+        type: 'ONLINE_USERS',
+        users
+    };
+}
+
+export function userJoined(user) {
+    return {
+        type: 'USER_JOINED',
+        user
+    };
+}
+
+export function userLeft(user) {
+    return {
+        type: 'USER_LEFT',
+        user
+    };
+}

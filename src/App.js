@@ -5,6 +5,7 @@ import Logo from './Logo';
 import Profile from './Profile';
 import OthersProfiles from './OthersProfiles';
 import Friends from './Friends';
+import OnlineUsers from './OnlineUsers';
 
 class App extends Component {
 
@@ -79,6 +80,12 @@ class App extends Component {
         return (
             <div id='app'>
 
+                <a href='/'>
+                    <button>
+                        My profile
+                    </button>
+                </a>
+
                 <a href='/logout'>
                     <button>
                         Logout
@@ -88,6 +95,12 @@ class App extends Component {
                 <a href='/friends'>
                     <button>
                         Friends
+                    </button>
+                </a>
+
+                <a href='/online'>
+                    <button>
+                        Online Users
                     </button>
                 </a>
 
@@ -124,6 +137,9 @@ class App extends Component {
                             exact path="/friends"
                             component={ Friends }
                         />
+                        <Route
+                            exact path="/online"
+                            component={ OnlineUsers } />
                     </div>
                 </BrowserRouter>
 

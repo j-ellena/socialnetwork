@@ -21,7 +21,24 @@ export default function(state = {}, action) {
                     }
                 })
         };
-        
+
+    } else if (action.type == 'ONLINE_USERS') {
+        return {
+            users: action.users
+        };
+
+    } else if (action.type == 'USER_JOINED') {
+        return {
+            users: [...state.users, action.user]
+        };
+
+    } else if (action.type == 'USER_LEFT') {
+        return {
+            users: state.users.filter(
+                user => user.id != action.user.id
+            )
+        };
+
     } else {
         return state;
     }

@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postFriendship} from './actions';
 
 const mapStateToProps = state => {
-    const props = {state};
+    const props = {
+        onlineUsers: []
+    };
+    props.onlineUsers = state.users;
     return props;
 };
 
-
-class OthersList extends Component {
+class OnlineUsers extends Component {
 
     constructor(props) {
         super(props);
 
         this.handleList = this.handleList.bind(this);
-        this.handleButton = this.handleButton.bind(this);
-
     }
 
     handleList(users, messageText) {
@@ -36,8 +35,6 @@ class OthersList extends Component {
                                 </p>
                             </Link>
 
-                            { this.handleButton(user) }
-
                         </div>
                     )
                 )
@@ -50,51 +47,29 @@ class OthersList extends Component {
             );
         }
     }
-
-    handleButton(user) {
-
-        let buttonText = '';
-        if (user.status == 2) {
-            buttonText = 'End friendship :(';
-        } else if (user.id == user.receiver_id) {
-            buttonText = 'Cancel friend request :|';
-        } else {
-            buttonText = 'Accept friendship :)';
-        }
-
-        return (
-            <button
-                onClick={ () => this.handleClick(user) }
-            >
-                { buttonText }
-            </button>
-        );
-    }
-
-    handleClick(user) {
-        this.props.dispatch(postFriendship(user));
-    }
-
     render() {
 
-        const { users, messageText } = this.props;
+        const { onlineUsers } = this.props;
 
-        if (!users) {
+        if (!onlineUsers) {
             return null;
         }
 
         return (
-            <div id='list-component'>
+            <div id='online-users-component'>
+
+                <h1>Online users</h1>
 
                 {
                     this.handleList(
-                        users,
-                        messageText)
-                }
+                        onlineUsers,
+                        'There is nobody else online...'
+                    )
 
+                }
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps)(OthersList);
+export default connect(mapStateToProps)(OnlineUsers);
