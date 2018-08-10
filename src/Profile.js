@@ -45,7 +45,9 @@ class Profile extends Component {
                     showUploader= { this.props.showUploader }
                 />
 
-                <h1>Profile</h1>
+                <h1>My profile</h1>
+
+                <br></br>
 
                 <h6>
                     { this.props.firstName } { this.props.lastName }

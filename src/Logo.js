@@ -4,7 +4,7 @@ function Logo() {
     return (
         <div id='logo-component'>
 
-            <h1>Jellena logo</h1>
+            <img src='/assets/logo.gif' alt='logo'/>
 
         </div>
     );

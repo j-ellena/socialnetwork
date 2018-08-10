@@ -46,8 +46,12 @@ class Login extends Component {
                 }
 
                 <h1>Please log in:</h1>
+                <br></br>
 
-                <form onSubmit={ this.handleSubmit }>
+                <form
+                    className='flex-col'
+                    onSubmit={ this.handleSubmit }
+                >
                     <input
                         onChange={ this.handleChange }
                         name='email'
@@ -66,7 +70,7 @@ class Login extends Component {
                 </form>
 
                 <h6>If you haven&apos;t already registered,
-                 please <Link className='link' to='/Registration'>register</Link>!</h6>
+                 please <Link className='link' to='/Registration'>register</Link></h6>
 
             </div>
         );

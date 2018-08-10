@@ -68,12 +68,15 @@ class Bio extends Component {
                 {
                     (this.props.bioFlag)
                         ? (
-                            <form onSubmit={ this.handleSubmit }>
+                            <form
+                                className='flex-col'
+                                onSubmit={ this.handleSubmit }
+                            >
                                 <textarea
                                     onChange={ this.handleChange }
                                     name='bio'
-                                    cols='25'
-                                    rows='10'
+                                    cols='40'
+                                    rows='3'
                                     defaultValue={ this.props.bio }
                                 >
                                 </textarea>

@@ -46,39 +46,49 @@ class Registration extends Component {
                 }
 
                 <h1>Please register:</h1>
+                <br></br>
 
-                <form onSubmit={ this.handleSubmit }>
-                    <input
-                        onChange={ this.handleChange }
-                        name='firstName'
-                        placeholder='First name'
-                        type='text'
-                    />
-                    <input
-                        onChange={ this.handleChange }
-                        name='lastName'
-                        placeholder='Last name'
-                        type='text'
-                    />
-                    <input
-                        onChange={ this.handleChange }
-                        name='email'
-                        placeholder='Email'
-                        type='email'
-                    />
-                    <input
-                        onChange={ this.handleChange }
-                        name='password'
-                        placeholder='Password'
-                        type='password'
-                    />
+                <form
+                    className='flex-col'
+                    onSubmit={ this.handleSubmit }
+                >
+                    <div className='flex-row'>
+                        <div className='flex-col'>
+                            <input
+                                onChange={ this.handleChange }
+                                name='firstName'
+                                placeholder='First name'
+                                type='text'
+                            />
+                            <input
+                                onChange={ this.handleChange }
+                                name='lastName'
+                                placeholder='Last name'
+                                type='text'
+                            />
+                        </div>
+                        <div className='flex-col'>
+                            <input
+                                onChange={ this.handleChange }
+                                name='email'
+                                placeholder='Email'
+                                type='email'
+                            />
+                            <input
+                                onChange={ this.handleChange }
+                                name='password'
+                                placeholder='Password'
+                                type='password'
+                            />
+                        </div>
+                    </div>
                     <button type='submit'>
                         Submit
                     </button>
                 </form>
 
                 <h6>If you have already registered,
-                 please <Link className='link' to='/'>log in</Link>!</h6>
+                 please <Link className='link' to='/'>log in</Link></h6>
 
             </div>
         );

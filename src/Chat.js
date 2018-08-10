@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { emitNewMessage } from './socket';
-import * as ReactDOM from 'react-dom';
 
 const mapStateToProps = state => {
     const props = {
@@ -51,17 +50,25 @@ class Chat extends Component {
         if (messages.length) {
             if (messages.length > 10) messages.shift();
             return (
-                messages.map(
-                    message => (
-                        <div key={ message.date }>
-                            <img src={ message.user.image }/>
-                            <p>{ message.user.first_name } { message.user.last_name }</p>
-                            <p>{ message.text }</p>
-                            <p>{ new Date(message.date).toLocaleString("en-GB") }</p>
-                        </div>
-                    )
+                <div className='chat-messages'
+                    ref={ elem => (this.elem = elem) }>
+                    {
+                        messages.map(
+                            message => (
+                                <div
+                                    className='chat-message'
+                                    key={ message.date }>
+                                    <img src={ message.user.image }/>
+                                    <div className='chat-info'>
+                                        <h6>{ message.text }</h6>
+                                        <p>{ message.user.first_name } { message.user.last_name } on { new Date(message.date).toLocaleString("en-GB") }</p>
+                                    </div>
+                                </div>
+                            )
 
-                )
+                        )
+                    }
+                </div>
             );
         } else {
             return (
@@ -72,11 +79,8 @@ class Chat extends Component {
         }
     }
     componentDidUpdate() {
-        const maxScrollTop = this.elem.scrollHeight - this.elem.clientHeight;
-        this.elem.scrollTop =
-        maxScrollTop > 0
-            ? maxScrollTop
-            : 0;
+        this.elem.scrollTop = this.elem.scrollHeight;
+        console.log('this.elem.scrollTop', this.elem.scrollTop);
     }
 
     render() {
@@ -86,8 +90,6 @@ class Chat extends Component {
         return (
             <div id='chat-component'>
 
-                <h1>Chat</h1>
-
                 {
                     (this.state.error)
                         ? <div className='error-message'>
@@ -96,20 +98,26 @@ class Chat extends Component {
                         : null
                 }
 
-                <div ref={elem => (this.elem = elem)}>
-                    {
-                        (chatMessages) &&
+
+                {
+                    (chatMessages) &&
                         this.handleList(
                             chatMessages,
-                            'No chat messages to show, be the first to start one!'
+                            'No chat messages to show, be the first to start a conversation!'
                         )
-                    }
-                </div>
+                }
 
-                <form onSubmit={ this.handleSubmit }>
+
+                <br></br>
+
+                <form
+                    className='flex-row'
+                    onSubmit={ this.handleSubmit }>
                     <textarea
                         onChange={ this.handleChange }
                         name='chatMessage'
+                        cols='50'
+                        rows='2'
                         ref={textArea => (this.textArea = textArea)}
                     >
                     </textarea>

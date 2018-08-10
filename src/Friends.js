@@ -47,32 +47,28 @@ class Friends extends Component {
         return (
             <div id='friends-component'>
 
-                <h1>Friends</h1>
                 {
                     friends &&
                         <OthersList
+                            title=       'Friends'
                             users=       { friends }
                             messageText= 'No friends to show :('
                         />
                 }
 
-                <br></br>
-
-                <h1>Wannabes</h1>
                 {
                     wannabes &&
                         <OthersList
+                            title=       'Wannabes'
                             users=       { wannabes }
                             messageText= 'No received friend requests'
                         />
                 }
 
-                <br></br>
-
-                <h1>Penders</h1>
                 {
                     penders &&
                         <OthersList
+                            title=       'Penders'
                             users=       { penders }
                             messageText= 'No sent friend requests'
                         />

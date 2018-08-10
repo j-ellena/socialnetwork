@@ -2,19 +2,18 @@
     margin: 0;
     outline: 0;
     box-sizing: border-box;
-    font-size: 2.2vw;
-    /* font-family: 'Open Sans', sans-serif; */
-    /* color: white; */
+    font-size: 2vw;
+    font-family: 'MedievalSharp';
+    color: white;
 }
 
 body {
-    /* background-image: url('../assets/bike_racks.jpeg');
+    background-image: url('../assets/background.jpg');
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover; */
-    /* opacity: 0.6; */
-    background-color: darkgrey;
+    background-size: cover;
+    opacity: 0.9;
     width: 100vw;
     min-height: 100vh;
 }
@@ -23,101 +22,65 @@ body {
     transform: translateX(-3000px);
 }
 
+#label-file,
+#uploader-x,
+button,
+input,
+.link {
+    cursor: pointer;
+}
+
+button,
+input,
 #label-file {
-    cursor: pointer;
     border: 0.5vw white solid;
     border-radius: 3vw;
-    background-color: darkgrey;
+    padding: 1vw 2vw;
+    margin: 1vw 1vw;
+}
+
+button,
+input,
+#label-file:hover {
+    background-color: white;
+    color: #404040;
+}
+
+button:hover,
+#label-file {
+    background: none;
     color: white;
-    padding: 1vw 3vw;
-    margin: 1vw 3vw;
-}
-
-#label-file:hover{
-    background-color: white;
-    color: darkgrey;
-}
-
-input {
-    cursor: pointer;
-    border: 0.5vw white solid;
-    border-radius: 3vw;
-    background-color: white;
-    color: darkgrey;
-    padding: 1vw 3vw;
-    margin: 1vw 3vw;
 }
 
 input::-webkit-input-placeholder {
-    color: darkgrey;
-}
-
-button {
-    cursor: pointer;
-    border: 0.5vw white solid;
-    border-radius: 3vw;
-    background-color: white;
-    color: darkgrey;
-    padding: 1vw 3vw;
-    margin: 1vw 3vw;
-}
-
-button:hover {
-    color: white;
-    background: none;
+    color: #404040;
 }
 
 .link {
-    cursor: pointer;
     text-decoration: none;
-    color: purple;
+    width: auto;
+    color: red;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    border: 0.5vw rgba(0, 0, 0, 0) solid;
+    border-radius: 3vw;
 }
 
 .link:hover {
-    background-color: pink;
-    color: black;
+    color: white;
+    /* background-color: red; */
+
+    background-image: url('../assets/fire.gif');
+    background-position: center;
+    background-size: 150%;
+    /* border-color: red; */
 }
 
 .error-message {
     background-color: red;
     border-radius: 3vw;
-    padding: 5vw;
-}
-
-#welcome-component {
-    background-color: blue;
-    border-radius: 3vw;
-    padding: 3vw;
-}
-
-#logo-component {
-    background-color: purple;
-    border-radius: 3vw;
-    padding: 3vw;
-}
-
-#registration-component {
-    background-color: yellow;
-    border-radius: 3vw;
-    padding: 3vw;
-}
-
-#login-component {
-    background-color: green;
-    border-radius: 3vw;
-    padding: 3vw;
-}
-
-#welcome-component #logo-component h1 {
- font-size: 100px;
-}
-
-
-#profile-pic-component img {
-    width: 20vw;
-    padding: 1vw;
-    border: 0.5vw white solid;
-    border-radius: 50%;
+    padding: 2vw;
+    margin: 1vw;
 }
 
 #uploader-component {
@@ -131,63 +94,176 @@ button:hover {
 
 #uploader-popup {
     position: fixed;
-    top: 20vh;
-    left: 20vw;
-    bottom: 20vh;
-    right: 20vw;
-    padding: 1vw;
-    background-color: darkgrey;
-    border: 0.7vw solid white;
+    top: 25vh;
+    left: 25vw;
+    bottom: 25vh;
+    right: 25vw;
+    padding: 2vw 2vw 2vw 2vw;
+    background-color: #000000;
+    border: 0.5vw solid white;
     border-radius: 3vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 #uploader-x {
-    font-size: 4vw;
-    cursor: pointer;
+    font-size: 3vw;
     margin-left: auto;
-    margin-bottom: auto;
+    padding-bottom: 2vw;
+    /* margin-bottom: auto; */
 }
 
+#welcome-component,
+#profile-component,
+.online-users-div {
+    background-color: #000000cc;
+    text-align: center;
+    margin: 0vw 15vw auto 15vw;
+}
+
+#registration-component,
+#login-component,
+#others-profiles-component,
+#friends-component,
+#chat-component {
+    background-color: #000000cc;
+    margin: 2vw 0vw;
+    padding: 1vw 10vw;
+}
+
+#app,
+#registration-component,
+#login-component,
+#profile-component,
+#others-profiles-component,
+#uploader-popup,
+.list-div,
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#nav-component,
+#list-component,
+#friends-component,
+.chat-message,
+.flex-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#friends-component,
+.list-div,
+.minor-start {
+    align-items: flex-start;
+}
+
+.list-div,
+.major-start {
+    justify-content: flex-start;
+}
+
+#app,
+#nav-component,
+#router-div {
+    width: 100vw;
+}
+
+#registration-component,
+#login-component,
+#others-profiles-component,
+#list-component,
+.list-div,
+.chat-message,
 form {
-    margin: auto;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
-#others-profiles-component {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#list-component {
+    padding: 1vw;
+}
+
+#logo-component img {
+    width: 15vw;
+}
+
+#welcome-component #logo-component img {
+    width: 50vw;
+}
+
+#profile-pic-component img {
+    width: 20vw;
+    padding: 1vw;
+    border: 0.5vw white solid;
+    border-radius: 50%;
+}
+
+#others-profiles-component img,
+#friends-component img,
+#online-users-component img,
+#chat-component img {
+    width: 5vw;
+    height: 5vw;
+    margin-top: 0.5vw;
+    margin-right: 0.5vw;
+    padding: 0.5vw;
+    background-size: contain;
+    border: 0.3vw white solid;
+    border-radius: 50%;
 }
 
 #others-profiles-component img {
     width: 10vw;
     height: 10vw;
-    background-size: contain;
 }
 
-#friends-component img {
-    width: 5vw;
-    height: 5vw;
-    background-size: contain;
+textarea {
+    color: black;
+    border: 0.7vw solid white;
+    border-radius: 3vw;
+    padding: 1vw;
+    margin: 1vw;
 }
 
-#online-users-component img {
-    width: 5vw;
-    height: 5vw;
-    background-size: contain;
+.chat-message {
+    background-color: #404040;;
+    border: 0.2vw solid white;
+    border-radius: 3vw;
+    padding: 1vw 2vw;
+    margin: 0.5vw 0;
+    justify-content: flex-start;
+
 }
 
-#chat-component img {
-    width: 5vw;
-    height: 5vw;
-    background-size: contain;
+.chat-message p {
+    font-size: 1.5vw;
+}
+
+.chat-messages {
+    height: 60vh;
+    overflow-y: auto;
+}
+
+.message-div {
+    text-align: center;
+    background-color: #000000cc;
+    margin: 20vh 15vw auto 15vw;
+    padding: 5vw;
+}
+
+.grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'grid-info grid-button'
+}
+
+.grid-info {
+    grid-area: grid-info;
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.grid-button {
+    grid-area: grid-button
 }

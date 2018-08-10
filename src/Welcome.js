@@ -10,7 +10,7 @@ function Welcome() {
 
             <Logo />
 
-            <h1>Welcome to Jellena virtual network!</h1>
+            <h1>Welcome to Diablo II LOD fan club</h1>
 
             <HashRouter>
                 <div>

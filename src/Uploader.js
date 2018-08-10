@@ -56,12 +56,12 @@ class Uploader extends Component {
                     onClick={ this.handlePropagation }
                 >
 
-                    <h1
+                    <div
                         id='uploader-x'
                         onClick={ this.props.hideUploader }
                     >
                         X
-                    </h1>
+                    </div>
 
                     {
                         (this.state.error)
@@ -71,7 +71,10 @@ class Uploader extends Component {
                             : null
                     }
 
-                    <form onSubmit={ this.uploadImage }>
+                    <form
+                        className='flex-col'
+                        onSubmit={ this.uploadImage }
+                    >
                         <p>Want to change your profile image?</p>
 
                         <label
@@ -80,14 +83,14 @@ class Uploader extends Component {
                         >
                                 Select image
                         </label>
+                        <button type='submit'>
+                            Upload image
+                        </button>
                         <input
                             id='file'
                             type='file'
                             onChange={ this.getSelected }
                         />
-                        <button type='submit'>
-                            Upload!
-                        </button>
                     </form>
 
                 </div>

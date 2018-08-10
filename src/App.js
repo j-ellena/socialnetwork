@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import axios from './axios';
-import Logo from './Logo';
 import Profile from './Profile';
 import OthersProfiles from './OthersProfiles';
 import Friends from './Friends';
 import OnlineUsers from './OnlineUsers';
 import Chat from './Chat';
+import Nav from './Nav';
 
 class App extends Component {
 
@@ -81,40 +81,10 @@ class App extends Component {
         return (
             <div id='app'>
 
-                <a href='/'>
-                    <button>
-                        My profile
-                    </button>
-                </a>
-
-                <a href='/logout'>
-                    <button>
-                        Logout
-                    </button>
-                </a>
-
-                <a href='/friends'>
-                    <button>
-                        Friends
-                    </button>
-                </a>
-
-                <a href='/online'>
-                    <button>
-                        Online Users
-                    </button>
-                </a>
-
-                <a href='/chat'>
-                    <button>
-                        Chat
-                    </button>
-                </a>
-
-                <Logo />
+                <Nav />
 
                 <BrowserRouter>
-                    <div>
+                    <div id='router-div'>
                         <Route
                             exact path='/'
                             render=

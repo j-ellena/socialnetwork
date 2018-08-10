@@ -21,33 +21,37 @@ class OnlineUsers extends Component {
     handleList(users, messageText) {
         if (users.length > 1) {
             return (
-                users.map(
-                    user => (
-                        <div key={user.id}>
+                <div className='online-users-div'>
+                    {
+                        users.map(
+                            user => (
+                                <div key={user.id}>
 
-                            <Link to={`/user/${user.id}`} >
-                                <img src={user.image} />
-                            </Link>
+                                    <Link to={`/user/${user.id}`} >
+                                        <img src={user.image} />
+                                    </Link>
 
-                            <Link to={`/user/${user.id}`} >
-                                <p>
-                                    {user.first_name} {user.last_name}
-                                </p>
-                            </Link>
+                                    <Link className='link' to={`/user/${user.id}`} >
+                                        <p className='link'>
+                                            {user.first_name} {user.last_name}
+                                        </p>
+                                    </Link>
 
-                        </div>
-                    )
-                )
+                                </div>
+                            )
+                        )
+                    }
+                </div>
             );
         } else {
             return (
-                <p>
+                <p className='message-div'>
                     { messageText }
                 </p>
             );
         }
     }
-    
+
     render() {
 
         const { onlineUsers } = this.props;
@@ -59,12 +63,10 @@ class OnlineUsers extends Component {
         return (
             <div id='online-users-component'>
 
-                <h1>Online users</h1>
-
                 {
                     this.handleList(
                         onlineUsers,
-                        'There is nobody else online...'
+                        'Other players are on their single missions right now, check back later to join session!'
                     )
 
                 }

@@ -19,34 +19,40 @@ class OthersList extends Component {
 
     }
 
-    handleList(users, messageText) {
+    handleList(title, users, messageText) {
+
         if (users.length > 0) {
             return (
-                users.map(
-                    user => (
-                        <div key={user.id}>
+                <div className='list-div'>
+                    <div>{ title }</div>
+                    {
+                        users.map(
+                            user => (
+                                <div
+                                    className='grid-2-col'
+                                    key={ user.id }
+                                >
+                                    <div className='grid-info'>
+                                        <Link to={`/user/${user.id}`}>
+                                            <img src={ user.image } />
+                                        </Link>
 
-                            <Link to={`/user/${user.id}`} >
-                                <img src={user.image} />
-                            </Link>
+                                        <Link className='link' to={`/user/${user.id}`}>
+                                            { user.first_name } { user.last_name }
+                                        </Link>
+                                    </div>
 
-                            <Link to={`/user/${user.id}`} >
-                                <p>
-                                    {user.first_name} {user.last_name}
-                                </p>
-                            </Link>
+                                    { this.handleButton(user) }
 
-                            { this.handleButton(user) }
-
-                        </div>
-                    )
-                )
+                                </div>
+                            )
+                        )
+                    }
+                </div>
             );
         } else {
             return (
-                <p>
-                    { messageText }
-                </p>
+                <div className='list-div'>{ messageText }</div>
             );
         }
     }
@@ -64,6 +70,7 @@ class OthersList extends Component {
 
         return (
             <button
+                className='grid-button'
                 onClick={ () => this.handleClick(user) }
             >
                 { buttonText }
@@ -77,7 +84,7 @@ class OthersList extends Component {
 
     render() {
 
-        const { users, messageText } = this.props;
+        const { title, users, messageText } = this.props;
 
         if (!users) {
             return null;
@@ -88,6 +95,7 @@ class OthersList extends Component {
 
                 {
                     this.handleList(
+                        title,
                         users,
                         messageText)
                 }
