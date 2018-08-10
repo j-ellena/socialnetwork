@@ -415,6 +415,7 @@ server.listen(process.env.PORT || 8080,
 // *****************************************************************************
 
 let onlineUsers = {};
+let chatMessages = [];
 
 io.on('connection', (socket) => {
     if (!socket.request.session || !socket.request.session.user) {
@@ -426,18 +427,23 @@ io.on('connection', (socket) => {
     onlineUsers[socketId] = userId;
 
     db.getUsersByIds(Object.values(onlineUsers))
-        .then(data => {
-            data.forEach(user => {
+        .then(users => {
+            users.forEach(user => {
                 user.image = user.image || '/assets/default.png';
             });
-            socket.emit('onlineUsers', data);
+            socket.emit('onlineUsers', users);
         })
         .catch(err => console.log(err));
+
+
     if (
         Object.values(onlineUsers).filter(id => id == userId).length == 1
     ) {
         db.getUserById(userId)
-            .then(data => socket.broadcast.emit('userJoined', data))
+            .then(user => {
+                user.image = user.image || '/assets/default.png';
+                socket.broadcast.emit('userJoined', user);
+            })
             .catch(err => console.log(err));
     }
 
@@ -446,10 +452,27 @@ io.on('connection', (socket) => {
             Object.values(onlineUsers).filter(id => id == userId).length == 1
         ) {
             db.getUserById(userId)
-                .then(data => socket.broadcast.emit('userLeft', data))
+                .then(user => {
+                    user.image = user.image || '/assets/default.png';
+                    socket.broadcast.emit('userLeft', user);
+                })
                 .catch(err => console.log(err));
         }
         delete onlineUsers[socketId];
     });
 
+    socket.emit('chatMessages', chatMessages);
+
+    socket.on('newMessage', async function (messageText) {
+        const user = await db.getUserById(userId);
+        user.image = user.image || '/assets/default.png';
+        let chatMessage = {
+            user,
+            text: messageText,
+            date: new Date()
+        };
+        chatMessages = [...chatMessages, chatMessage];
+        io.sockets.emit('chatMessage', chatMessage);
+
+    });
 });

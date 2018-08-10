@@ -14,6 +14,7 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
+
 ReactDOM.render(
     (location.pathname === '/welcome')
         ? <Welcome />

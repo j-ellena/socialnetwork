@@ -6,6 +6,7 @@ import Profile from './Profile';
 import OthersProfiles from './OthersProfiles';
 import Friends from './Friends';
 import OnlineUsers from './OnlineUsers';
+import Chat from './Chat';
 
 class App extends Component {
 
@@ -104,6 +105,12 @@ class App extends Component {
                     </button>
                 </a>
 
+                <a href='/chat'>
+                    <button>
+                        Chat
+                    </button>
+                </a>
+
                 <Logo />
 
                 <BrowserRouter>
@@ -134,12 +141,17 @@ class App extends Component {
                             component={ OthersProfiles }
                         />
                         <Route
-                            exact path="/friends"
+                            exact path='/friends'
                             component={ Friends }
                         />
                         <Route
-                            exact path="/online"
-                            component={ OnlineUsers } />
+                            exact path='/online'
+                            component={ OnlineUsers }
+                        />
+                        <Route
+                            exact path='/chat'
+                            component={ Chat }
+                        />
                     </div>
                 </BrowserRouter>
 

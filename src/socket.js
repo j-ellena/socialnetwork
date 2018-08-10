@@ -2,7 +2,9 @@ import * as io from 'socket.io-client';
 import {
     onlineUsers,
     userJoined,
-    userLeft
+    userLeft,
+    chatMessages,
+    chatMessage
 } from './actions';
 
 let socket;
@@ -20,5 +22,15 @@ export function init(store) {
         socket.on('userLeft',
             user => store.dispatch(userLeft(user)));
 
+        socket.on('chatMessages',
+            messages => store.dispatch(chatMessages(messages)));
+
+        socket.on('chatMessage',
+            message => store.dispatch(chatMessage(message)));
+
     }
+}
+
+export function emitNewMessage(message) {
+    socket.emit('newMessage', message);
 }

@@ -19,7 +19,7 @@ class OnlineUsers extends Component {
     }
 
     handleList(users, messageText) {
-        if (users.length > 0) {
+        if (users.length > 1) {
             return (
                 users.map(
                     user => (
@@ -47,6 +47,7 @@ class OnlineUsers extends Component {
             );
         }
     }
+    
     render() {
 
         const { onlineUsers } = this.props;

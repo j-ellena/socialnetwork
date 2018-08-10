@@ -185,3 +185,9 @@ form {
     height: 5vw;
     background-size: contain;
 }
+
+#chat-component img {
+    width: 5vw;
+    height: 5vw;
+    background-size: contain;
+}
