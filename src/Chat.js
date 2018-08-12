@@ -50,17 +50,24 @@ class Chat extends Component {
         if (messages.length) {
             if (messages.length > 10) messages.shift();
             return (
-                <div className='chat-messages'
-                    ref={ elem => (this.elem = elem) }>
+                <div
+                    id='chat-div'
+                    ref={ elem => (this.elem = elem) }
+                >
                     {
                         messages.map(
                             message => (
                                 <div
-                                    className='chat-message'
-                                    key={ message.date }>
-                                    <img src={ message.user.image }/>
-                                    <div className='chat-info'>
-                                        <h6>{ message.text }</h6>
+                                    className='grid-cell'
+                                    key={ message.date }
+                                >
+                                    <div className='grid-img'>
+                                        <img src={ message.user.image }/>
+                                    </div>
+                                    <div
+                                        className='grid-message'
+                                    >
+                                        <h5>{ message.text }</h5>
                                         <p>{ message.user.first_name } { message.user.last_name } on { new Date(message.date).toLocaleString("en-GB") }</p>
                                     </div>
                                 </div>
@@ -72,15 +79,15 @@ class Chat extends Component {
             );
         } else {
             return (
-                <p>
+                <h1 className='message-div'>
                     { emptyNotification }
-                </p>
+                </h1>
             );
         }
     }
+
     componentDidUpdate() {
-        this.elem.scrollTop = this.elem.scrollHeight;
-        console.log('this.elem.scrollTop', this.elem.scrollTop);
+        if (this.elem) this.elem.scrollTop = this.elem.scrollHeight;
     }
 
     render() {
@@ -91,15 +98,6 @@ class Chat extends Component {
             <div id='chat-component'>
 
                 {
-                    (this.state.error)
-                        ? <div className='error-message'>
-                              ERROR: { this.state.error }
-                        </div>
-                        : null
-                }
-
-
-                {
                     (chatMessages) &&
                         this.handleList(
                             chatMessages,
@@ -107,25 +105,21 @@ class Chat extends Component {
                         )
                 }
 
-
-                <br></br>
-
-                <form
-                    className='flex-row'
-                    onSubmit={ this.handleSubmit }>
-                    <textarea
-                        onChange={ this.handleChange }
-                        name='chatMessage'
-                        cols='50'
-                        rows='2'
-                        ref={textArea => (this.textArea = textArea)}
-                    >
-                    </textarea>
-                    <button type='submit'>
-                        Send message
-                    </button>
+                <form onSubmit={ this.handleSubmit }>
+                    <div className='flex-row'>
+                        <textarea
+                            onChange={ this.handleChange }
+                            name='chatMessage'
+                            cols='50'
+                            rows='2'
+                            ref={textArea => (this.textArea = textArea)}
+                        >
+                        </textarea>
+                        <button type='submit'>
+                            Send message
+                        </button>
+                    </div>
                 </form>
-
             </div>
         );
     }

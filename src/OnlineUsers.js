@@ -18,10 +18,10 @@ class OnlineUsers extends Component {
         this.handleList = this.handleList.bind(this);
     }
 
-    handleList(users, messageText) {
+    handleList(users, emptyNotification) {
         if (users.length > 1) {
             return (
-                <div className='online-users-div'>
+                <div id='online-users-div'>
                     {
                         users.map(
                             user => (
@@ -31,11 +31,11 @@ class OnlineUsers extends Component {
                                         <img src={user.image} />
                                     </Link>
 
-                                    <Link className='link' to={`/user/${user.id}`} >
-                                        <p className='link'>
+                                    <p>
+                                        <Link className='link' to={`/user/${user.id}`} >
                                             {user.first_name} {user.last_name}
-                                        </p>
-                                    </Link>
+                                        </Link>
+                                    </p>
 
                                 </div>
                             )
@@ -45,9 +45,11 @@ class OnlineUsers extends Component {
             );
         } else {
             return (
-                <p className='message-div'>
-                    { messageText }
-                </p>
+                <div className='message-div'>
+                    <h1>
+                        { emptyNotification }
+                    </h1>
+                </div>
             );
         }
     }
@@ -66,7 +68,8 @@ class OnlineUsers extends Component {
                 {
                     this.handleList(
                         onlineUsers,
-                        'Other players are on their single missions right now, check back later to join session!'
+                        `Other players are on their single missions right now,
+                        check back later to join the session!`
                     )
 
                 }

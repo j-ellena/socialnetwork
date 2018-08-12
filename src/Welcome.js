@@ -10,7 +10,9 @@ function Welcome() {
 
             <Logo />
 
+            <br></br>
             <h1>Welcome to Diablo II LOD fan club</h1>
+            <br></br>
 
             <HashRouter>
                 <div>

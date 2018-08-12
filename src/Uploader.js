@@ -72,10 +72,11 @@ class Uploader extends Component {
                     }
 
                     <form
-                        className='flex-col'
+                        id='uploader-div'
                         onSubmit={ this.uploadImage }
                     >
                         <p>Want to change your profile image?</p>
+                        <br></br>
 
                         <label
                             id='label-file'

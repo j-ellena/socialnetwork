@@ -72,9 +72,9 @@ class App extends Component {
 
         if (!this.state.id) {
             return (
-                <div>
+                <h1 className='message-div'>
                     ...loading...
-                </div>
+                </h1>
             );
         }
 

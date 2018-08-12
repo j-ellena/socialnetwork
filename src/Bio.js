@@ -7,6 +7,7 @@ class Bio extends Component {
         super(props);
 
         this.state = {
+            bio: this.props.bio,
             error: null
         };
 
@@ -40,19 +41,30 @@ class Bio extends Component {
         if (!this.props.bioFlag) {
             if (!this.props.bio) {
                 return (
-                    <p onClick={ this.props.toggleBioFlag }>
+                    <button
+                        type='button'
+                        onClick={ this.props.toggleBioFlag }
+                    >
                         Click to add your bio
-                    </p>
+                    </button>
                 );
             } else {
                 return (
-                    <div>
-                        <p>
+                    <div
+                        className='flex-col'
+                    >
+                        <div
+                            className='bio-div'
+                            onClick={ this.props.toggleBioFlag }
+                        >
                             { this.props.bio }
-                        </p>
-                        <p onClick={ this.props.toggleBioFlag }>
+                        </div>
+                        <button
+                            type='button'
+                            onClick={ this.props.toggleBioFlag }
+                        >
                             Edit your bio
-                        </p>
+                        </button>
                     </div>
                 );
             }
@@ -69,7 +81,6 @@ class Bio extends Component {
                     (this.props.bioFlag)
                         ? (
                             <form
-                                className='flex-col'
                                 onSubmit={ this.handleSubmit }
                             >
                                 <textarea

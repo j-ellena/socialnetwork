@@ -48,10 +48,7 @@ class Login extends Component {
                 <h1>Please log in:</h1>
                 <br></br>
 
-                <form
-                    className='flex-col'
-                    onSubmit={ this.handleSubmit }
-                >
+                <form onSubmit={ this.handleSubmit }>
                     <input
                         onChange={ this.handleChange }
                         name='email'

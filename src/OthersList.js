@@ -22,24 +22,27 @@ class OthersList extends Component {
     handleList(title, users, messageText) {
 
         if (users.length > 0) {
+
             return (
                 <div className='list-div'>
-                    <div>{ title }</div>
+                    <h1>{ title }</h1>
+                    <br></br>
                     {
                         users.map(
                             user => (
                                 <div
-                                    className='grid-2-col'
+                                    className='grid-list'
                                     key={ user.id }
                                 >
                                     <div className='grid-info'>
                                         <Link to={`/user/${user.id}`}>
                                             <img src={ user.image } />
                                         </Link>
-
-                                        <Link className='link' to={`/user/${user.id}`}>
-                                            { user.first_name } { user.last_name }
-                                        </Link>
+                                        <p>
+                                            <Link className='link' to={`/user/${user.id}`}>
+                                                { user.first_name } { user.last_name }
+                                            </Link>
+                                        </p>
                                     </div>
 
                                     { this.handleButton(user) }
@@ -52,7 +55,11 @@ class OthersList extends Component {
             );
         } else {
             return (
-                <div className='list-div'>{ messageText }</div>
+                <div className='list-div'>
+                    <h1>{ title }</h1>
+                    <br></br>
+                    { messageText }
+                </div>
             );
         }
     }
@@ -63,18 +70,19 @@ class OthersList extends Component {
         if (user.status == 2) {
             buttonText = 'End friendship :(';
         } else if (user.id == user.receiver_id) {
-            buttonText = 'Cancel friend request :|';
+            buttonText = 'Cancel friend request';
         } else {
             buttonText = 'Accept friendship :)';
         }
 
         return (
-            <button
-                className='grid-button'
-                onClick={ () => this.handleClick(user) }
-            >
-                { buttonText }
-            </button>
+            <div className='grid-button'>
+                <button
+                    onClick={ () => this.handleClick(user) }
+                >
+                    { buttonText }
+                </button>
+            </div>
         );
     }
 
@@ -91,7 +99,7 @@ class OthersList extends Component {
         }
 
         return (
-            <div id='list-component'>
+            <div className='list-component'>
 
                 {
                     this.handleList(

@@ -48,10 +48,7 @@ class Registration extends Component {
                 <h1>Please register:</h1>
                 <br></br>
 
-                <form
-                    className='flex-col'
-                    onSubmit={ this.handleSubmit }
-                >
+                <form onSubmit={ this.handleSubmit }>
                     <div className='flex-row'>
                         <div className='flex-col'>
                             <input
