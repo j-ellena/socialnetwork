@@ -1,4 +1,17 @@
-# Using this repo in development
+# Social Network
+Full-Stack Project
+- single-page app
+
+![home screen](https://github.com/j-ellena/socialnetwork/blob/master/public/assets/screenshot.gif)
+
+### Technologies:
+- JavaScript, React, Redux, Node.js, Express, AWS, SocetIO, PostgreSQL, HTML/CSS
+
+### Features:
+- user and friendship management
+- chatroom and list of online users
+
+### Using this repo in development
 
 The `src` directory is where all of your client-side Javascript code should live. The file `src/start.js` is the entry point for your React application. All other files you use will either be imported by `start.js` or imported by files that are imported `start.js` (or imported by files that are imported by files that are imported by `start.js`, etc.).
 
